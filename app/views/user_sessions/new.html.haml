@@ -1,0 +1,40 @@
+-#
+	.spacer
+	.w960.shadow
+		.openid
+			%h1.header OpenID
+			- form_for :openid, :url => login_path do |f|
+				- if !params[:openid].blank? && @user_session.errors.length > 0
+					%h1.lightheader.errormsg="#{@user_session.errors.size} errors when trying to login"
+					%ul
+						- @user_session.errors.each do |error|
+							%li
+								= f.label(error[0]) if error[0] != "base"
+								= error[1]
+				.rowsep
+					%label URL
+					= f.text_field(:openid_identifier)
+					= f.submit "Login"
+.spacer
+.w960.shadow
+	.login
+		%h1.header Account login
+		- form_for :user_session, :url => login_path do |f|
+			- if params[:openid].blank? && @user_session.errors.length > 0
+				%h1.lightheader.errormsg="#{@user_session.errors.size} errors when trying to login"
+				%ul
+					- @user_session.errors.each do |error|
+						%li= "#{f.label(error[0])} #{error[1]}"
+			.rowsep
+				%label Username
+				= f.text_field(:login)
+			.rowsep
+				%label Password
+				= f.password_field(:password)
+			.rowsep.remember
+				%label Remember me?
+				= f.check_box(:remember_me)
+			.rowsep.submit
+				%label
+					= link_to "Forgot password?", new_password_reset_path
+				= f.submit "Login"

@@ -1,0 +1,7 @@
+.spacer
+.w960.shadow
+	.accountnav
+		%span= link_to "Claim characters", account_path, :class => account_page_active("show")
+		%span &bull;
+		%span= link_to "Account management", edit_account_path, :class => account_page_active("edit")
+.spacer

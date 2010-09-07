@@ -1,0 +1,6 @@
+- parse_tooltip do
+	- unless @tooltip[:title].blank?
+		.title= @tooltip[:title]
+	- unless @tooltip[:data].blank?
+		.internal
+			#{@tooltip[:data]}

@@ -1,0 +1,181 @@
+-@page_title = @item.name
+- cache(@page_hash, :raw => true, :expires_in => 24.hours) do
+	.spacer
+	.w960
+		.upgrades.shadow
+			%h1.header Item upgrades
+			.row{:class => cycle("darkbg", "lightbg")}
+				.label Name
+				.value
+					= image_tag("icons/#{@item.icon}.png", :size => "24x24")
+					= link_to "[#{@item.name}]", ResourcedbHelper.link(:item_id => @item.item_id), {:class => "q#{@item.quality}"}
+			.rowdiv
+			.clearb
+			.row{:class => cycle("darkbg", "lightbg")}
+				.label Item level
+				.value
+					%span{:class => "q#{@item.quality}"}
+						= @item.real_level(config_option("player")["maxlevel"])
+					- if @item[:quality] == ITEMS["QUALITY_HEIRLOOM"]
+						(at level #{config_option("player")["maxlevel"]})
+			.rowdiv
+			.clearb
+			.row{:class => cycle("darkbg", "lightbg")}
+				.label= @restrictions == 1 ? "Restriction" : "Restrictions"
+				.value
+					- if @item.class_id.nil? and @item.faction_id.nil?
+						None
+					- else
+						- if @item.faction_id
+							= config_option("faction")[@item.faction_id]
+						- if @item.class_id
+							#{config_option("class")[@item.class_id]}#{"s" if @restrictions > 1}
+						only
+			.rowdiv
+			.clearb
+			.row{:class => cycle("darkbg", "lightbg")}
+				.label Type
+				.value= @item.spec_name
+			- @item_sources.each do |source|
+				.rowdiv
+				.clearb
+				.row{:class => cycle("darkbg", "lightbg")}
+					- if source[:total] == 1
+						.label
+							= source[:source_type].capitalize
+							source
+						.value
+							- if !source[:heroic].nil?
+								= image_tag("skull.png", :class => "skull")
+							= link_to source[:name], ResourcedbHelper.smart_link(:id => source[:npc_id], :type => source[:source_type], :search => true, :name => source[:name]), {:class => "nopad"}
+					- else
+						.label
+							= source[:source_type].capitalize
+							sources
+						.value
+							.sources
+								%span{:onmouseover => tooltip_ajax("#{source_item_tooltip_url(@item.item_id)}"), :onmouseout => tooltip_hide} #{source[:total]} found
+			- if @item_sources.length == 0
+				.rowdiv
+				.clearb
+				.row{:class => cycle("darkbg", "lightbg")}
+					.label Source
+					.value None found
+		-#- if RAILS_ENV == "production"		
+		-#	:javascript
+		-#		google_ad_client = "pub-5904524490721044";
+		-#		google_ad_slot = "0576067775";
+		-#		google_ad_width = 180;
+		-#		google_ad_height = 150;
+		-#	= javascript_include_tag("http://pagead2.googlesyndication.com/pagead/show_ads.js")
+		.clearb
+	.spacer
+	.w960
+		.shadow.itemrestrict
+			%h1.header Upgrade filters
+			.rowsep
+			.row
+				- form_for :restrict, :url => item_restrict_path do |f|
+					= hidden_field_tag(:itemid, @item.item_id)
+					- if !@archetype.blank?
+						= hidden_field_tag(:archetype, @archetype)
+					%label.nomargin Show upgrades within
+					= select_tag("band", options_for_select([["25 item levels", 25], ["50 item levels", 50], ["75 item levels", 75], ["100 item levels", 100], ["200 item levels", 200]], [@ilvl_band]))
+					%label Include 5-mans
+					= check_box_tag("dungeon_five", 1, @dungeons[:fiveman])
+					%label Include 10-mans
+					= check_box_tag("dungeon_ten", 1, @dungeons[:tenman])
+					%label Include 25-mans
+					= check_box_tag("dungeon_tf", 1, @dungeons[:tfman])
+					= f.submit("Filter")
+	.spacer
+	.w960
+		.list
+			- reset_cycle
+			.shadow.sametype
+				%h1.header Same type upgrades
+				.rowsep
+				- showed = nil
+				- total_rows = @same_items.length
+				- @same_items.each do |item|
+					- if showed
+						.rowdiv
+					- showed = true
+					.clearb
+					.row{:class => cycle("darkbg", "lightbg")}
+						.name
+							= image_tag("icons/#{item[:icon]}.png", :size => "24x24")
+							- if !item[:is_heroic].blank?
+								= image_tag("skull.png", :class => "skull")
+							= link_to "[#{item[:name]}]", item_path(item[:item_id]), {:class => "q#{item[:quality]}"}
+						.quality
+							%span{:class => "q#{item[:quality]}"}= item[:real_level]
+							- if item[:quality] == ITEMS["QUALITY_HEIRLOOM"]
+								(at #{config_option("player")["maxlevel"]})
+						- if item[:source_total] > 0
+							.source{:onmouseover => tooltip_ajax("#{source_item_tooltip_url(item[:item_id])}"), :onmouseout => tooltip_hide}
+								%span= pluralize(item[:source_total], "source", "sources")
+						- else
+							.source
+								%span No sources
+					
+				- if @same_items.length == 0
+					- showed = true
+					- total_rows += 1
+					.row{:class => cycle("darkbg", "lightbg")}
+						.fill No upgrades of the same type were found
+					.clearb
+					
+				- if @similar_items.length > total_rows
+					- (@similar_items.length - total_rows).times do
+						- if showed
+							.rowdiv
+						- showed = true
+						.clearb
+						.row{:class => cycle("darkbg", "lightbg")}
+							.fill
+			- reset_cycle
+			.shadow.simtype
+				%h1.header Similar type upgrades
+				.rowsep
+				- showed = nil
+				- total_rows = @similar_items.length
+				- @similar_items.each do |item|
+					- if showed
+						.rowdiv
+					- showed = true
+					.clearb
+					.row{:class => cycle("darkbg", "lightbg")}
+						.name
+							= image_tag("icons/#{item[:icon]}.png", :size => "24x24")
+							- if !item[:is_heroic].blank?
+								= image_tag("skull.png", :class => "skull")
+							= link_to "[#{item[:name]}]", item_path(item[:item_id]), {:class => "q#{item[:quality]}"}
+						.quality
+							%span{:class => "q#{item[:quality]}"}= item[:real_level]
+							- if item[:quality] == ITEMS["QUALITY_HEIRLOOM"]
+								(at #{config_option("player")["maxlevel"]})
+						- if item[:source_total] > 0
+							.source{:onmouseover => tooltip_ajax("#{source_item_tooltip_url(item[:item_id])}"), :onmouseout => tooltip_hide}
+								%span= pluralize(item[:source_total], "source", "sources")
+						- else
+							.source
+								%span No sources
+						
+				- if @similar_items.length == 0
+					- showed = true
+					- total_rows += 1
+					.clearb
+					.row{:class => cycle("darkbg", "lightbg")}
+						.fill No upgrades of the same type were found
+						
+				- if @same_items.length > total_rows
+					- (@same_items.length - total_rows).times do
+						- if showed
+							.rowdiv
+						- showed = true
+						.clearb
+						.row{:class => cycle("darkbg", "lightbg")}
+							.fill
+		.clearb
+		

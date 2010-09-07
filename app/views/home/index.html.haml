@@ -1,0 +1,24 @@
+- cache_unless(current_user_is_admin?, "news", :raw => true, :expires_in => 12.hours) do
+	.spacer
+	.w960.shadow.news
+		%h1.header
+			News
+			= link_to "Post news", post_new_path if current_user_is_admin?
+		- Post.all(:order => "created_at DESC", :limit => 3, :include => [:user]).each do |post|
+			%h1.lightheader
+				%span.title
+					- if current_user_is_admin?
+						[
+						= link_to "Edit", post_edit_path(post.id)
+						&bull;
+						= link_to "Delete", post_destroy_path(post.id)
+						]
+					=post.title
+				%span.author
+					by
+					=post.user && post.user.login
+				%span.time=relative_time(post.created_at)
+			.body
+				=post.body
+				- if post.updated_at != post.created_at
+					%p.modified="Last edited #{relative_time(post.updated_at)}"	

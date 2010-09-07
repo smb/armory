@@ -1,0 +1,33 @@
+.spacer
+.w960
+	.shadow.status
+		%h1.header.enabled On?
+		%h1.header.remote Remote?
+		%h1.header.trusted Trusted?
+		%h1.header.name Name
+		%h1.header.locked Locked by
+		%h1.header.locked_at Locked at
+		.clearb
+		.rowsep
+		- showed = nil
+		- @nodes.each do |node|
+			- if showed
+				.rowdiv
+			- showed = true
+			.row{:class => cycle("darkbg", "lightbg")}
+				.enabled= node.enabled ? "Yes" : "No"
+				.remote= node.remote ? "Yes" : "No"
+				.trusted= node.trusted ? "Yes" : "No"
+				.name= node.name.slice(0, 16)
+				.locked
+					- if !node.remote.blank? && node.throttle > 0
+						Multi
+					- else
+						= node.locked_by || "Unlocked"
+				.locked_at
+					- if node.locked_at
+						= pluralize(((Armory::Node.db_time_now - node.locked_at) / 60).to_i, "minute", "minutes")
+					- else
+						\---
+		.clearb
+			

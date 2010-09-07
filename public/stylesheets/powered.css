@@ -1,0 +1,97 @@
+.ea-hover {
+  position: absolute;
+  z-index: 60000; }
+
+.eatooltip {
+  background-color: #111122;
+  border-top: 1px solid #cccccc;
+  border-right: 1px solid #777777;
+  border-bottom: 1px solid #777777;
+  border-left: 1px solid #cccccc;
+  color: white;
+  float: left;
+  font-family: Verdana, sans-serif;
+  font-size: 13px;
+  line-height: 17px;
+  padding: 7px;
+  text-align: left;
+  z-index: 65000;
+  -moz-border-radius: 0.55ex;
+  -moz-box-shadow: black 1px 1px 5px;
+  -webkit-box-shadow: black 1px 1px 5px;
+  -webkit-border-radius: 0.55ex;
+  max-width: 23em;
+  min-width: 10px; }
+  .eatooltip .title {
+    font-size: 110%;
+    float: left;
+    padding-bottom: 5px; }
+    .eatooltip .title .guild {
+      width: 100%;
+      float: left;
+      color: #d4d4d4;
+      font-size: 90%; }
+  .eatooltip .base, .eatooltip .ilvl, .eatooltip .enchantsum {
+    float: left;
+    width: 50%;
+    text-align: left; }
+  .eatooltip .talents, .eatooltip .itemsum, .eatooltip .gemsum {
+    float: right;
+    width: 50%;
+    text-align: right; }
+  .eatooltip .powered {
+    font-size: 80%;
+    position: relative;
+    top: 3px; }
+  .eatooltip .gold {
+    color: #f3c90c; }
+  .eatooltip .alliance {
+    color: #0070dd; }
+  .eatooltip .horde {
+    color: #ff2020; }
+  .eatooltip .hunter {
+    color: #aad372; }
+  .eatooltip .warlock {
+    color: #9382c9; }
+  .eatooltip .priest {
+    color: white; }
+  .eatooltip .paladin {
+    color: #f48cba; }
+  .eatooltip .mage {
+    color: #68ccef; }
+  .eatooltip .rogue {
+    color: #fff468; }
+  .eatooltip .druid {
+    color: #ff7c0a; }
+  .eatooltip .shaman {
+    color: #0070dd; }
+  .eatooltip .warrior {
+    color: #c69b68; }
+  .eatooltip .deathknight {
+    color: #c41e3a; }
+  .eatooltip .green {
+    color: #18c904; }
+  .eatooltip .yellow {
+    color: #d8e307; }
+  .eatooltip .red {
+    color: #c90808; }
+  .eatooltip .blue {
+    color: #0000dd; }
+  .eatooltip .orange {
+    color: #f28107; }
+  .eatooltip .q0 {
+    color: #9d9d9d; }
+  .eatooltip .q1 {
+    color: white; }
+  .eatooltip .q2 {
+    color: #1eff00; }
+  .eatooltip .q3 {
+    color: #0080ff; }
+  .eatooltip .q4 {
+    color: #b048f8; }
+  .eatooltip .q5 {
+    color: #ff8000; }
+  .eatooltip .q6 {
+    color: #e5cc80; }
+  .eatooltip .q7 {
+    color: #e5cc80; }

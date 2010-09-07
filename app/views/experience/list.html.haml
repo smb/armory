@@ -1,0 +1,109 @@
+-@page_title = "Experience allocation"
+= javascript_include_tag("jquery.cookie", "toggles", :cache => "cache-toggle", :lifetime => 1.month)
+- cache("experience/#{config_option("version")}", :raw => true, :expires_in => 1.week) do
+	.spacer
+	.w960.expinfo
+		.shadow
+			%h1.header Experience allocation
+			.rowsep
+			%p
+				The experience feature is intended to reward people who have cleared a dungeon, rather than clearing the first or second boss in a dungeon repeatedly. You can #{link_to "contact us", "mailto:contact@elitistarmory.com"} if you think the point allocation is incorrect. 
+			%p
+				Players have to clear a dungeon roughly two to three times to be experienced, certain achievements that reward a player for doing well can decrease this, such as #{link_to "The Immortal", ResourcedbHelper.link(:achievement_id => 2186)}
+				or #{link_to "A Tribute to Insanity", ResourcedbHelper.link(:achievement_id => 3819)}. This does not mean people will be rewarded for getting "completionist" achievements like #{link_to "Upper Back Pain", ResourcedbHelper.link(:achievement_id => 3813)}.
+			%p
+				Experienced is how many points are needed to have 100% in a dungeon, experienced at 100 with 50 points means somebody is 50% experienced. Dungeons that are listed as cascading means that points in them spills over to their non-heroic equivalent. For example, Heroic 25-man Icecrown Citadel points are added to Normal 25-man Icecrown Citadel. They do not carry over between dungeon sizes.
+			%p
+				Points in <span class='orange'>orange</span> text have caps associated with them. Meaning you if you get 2 point per kill, with a cap of 10, you can only get 10 points (or 5 kills) worth of points before it caps out.
+		- @raids.each do |raid|
+			.spacer
+			.raid.shadow
+				%h1.header.label
+					= image_tag(raid[:icon], :size => "20x20")
+					%span.atoggle{:onmouseout => tooltip_hide} [+]
+					%span= raid[:name]
+				%h1.header.exp 10-man
+				%h1.header.exp
+					= image_tag("skull.png", :class => "skull")
+					10-man
+				%h1.header.exp 25-man
+				%h1.header.exp
+					= image_tag("skull.png", :class => "skull")
+					25-man
+				%h1.header.fill
+				.toggle{:id => "#{raid[:id]}"}
+					.rowsep
+					.row{:class => cycle("darkbg", "lightbg")}
+						.name
+							= image_tag("icons/inv_misc_celebrationcake_01.png", :size => "20x20")
+							%span Experienced at
+						.tenman= experienced_text(raid[:info]["10:normal"])
+						.twofiveman= experienced_text(raid[:info]["10:heroic"])
+						.htenman= experienced_text(raid[:info]["25:normal"])
+						.htwofiveman= experienced_text(raid[:info]["25:heroic"])
+						.rowfill
+					- if has_cascading?(raid)
+						.rowdiv
+						.row{:class => cycle("darkbg", "lightbg")}
+							.name
+								= image_tag("icons/spell_frost_summonwaterelemental.png", :size => "20x20")
+								%span Cascading points
+							.tenman= cascade_text(raid[:info]["10:normal"])
+							.twofiveman= cascade_text(raid[:info]["10:heroic"])
+							.htenman= cascade_text(raid[:info]["25:normal"])
+							.htwofiveman= cascade_text(raid[:info]["25:heroic"])
+							.rowfill
+					- raid[:order].each do |achievement|
+						.rowdiv
+						.row{:class => cycle("darkbg", "lightbg")}
+							.name
+								= image_tag("icons/#{achievement_icon(@achievements[achievement])}.png", :size => "20x20")
+								= link_to @achievements[achievement].name, ResourcedbHelper.smart_link(@achievements[achievement])
+							.tenman= achievement_points(raid[:achievements][achievement]["10:normal"])
+							.twofiveman= achievement_points(raid[:achievements][achievement]["10:heroic"])
+							.htenman= achievement_points(raid[:achievements][achievement]["25:normal"])
+							.htwofiveman= achievement_points(raid[:achievements][achievement]["25:heroic"])
+							.rowfill
+				.clearb
+			.clearb
+		.spacer
+		- index = 0
+		- @parties.each do |party|
+			- index += 1
+			.party.shadow{:class => index == 1 ? "partysep" : ""}
+				%h1.header.label
+					= image_tag(party[:icon], :size => "20x20")
+					%span.atoggle{:onmouseout => tooltip_hide} [+]
+					%span= party[:name]
+				%h1.header.exp
+					= image_tag("skull.png", :class => "skull")
+					5-man
+				.toggle{:id => "#{party[:id]}"}
+					.rowsep
+					.row{:class => cycle("darkbg", "lightbg")}
+						.name
+							= image_tag("icons/inv_misc_celebrationcake_01.png", :size => "20x20")
+							%span Experienced at
+						.fiveman= experienced_text(party[:info]["5:heroic"])
+					- if has_cascading?(party)
+						.rowdiv
+						.row{:class => cycle("darkbg", "lightbg")}
+							.name
+								= image_tag("icons/spell_frost_summonwaterelemental.png", :size => "20x20")
+								%span Cascading points
+							.fiveman= cascade_text(raid[:info]["5:heroic"])
+					- party[:order].each do |achievement|
+						.rowdiv
+						.row{:class => cycle("darkbg", "lightbg")}
+							.name
+								= image_tag("icons/#{achievement_icon(@achievements[achievement])}.png", :size => "20x20")
+								= link_to @achievements[achievement].name, ResourcedbHelper.link(:achievement_id => @achievements[achievement].achievement_id)
+							.fiveman= achievement_points(party[:achievements][achievement]["5:heroic"])
+			- if index == 2
+				- index = 0
+				.spacer
+		
+		.clearb	
+			
+	:javascript
+		toggle_frames()

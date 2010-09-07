@@ -1,0 +1,1523 @@
+a {
+  text-decoration: none;
+  outline: none; }
+  a:link, a:active, a:visited {
+    color: #8288ff; }
+  a:hover {
+    color: #ededed;
+    text-decoration: underline; }
+  a img {
+    border: 0px; }
+
+.atoggle {
+  color: #8288ff; }
+  .atoggle:hover {
+    cursor: pointer;
+    color: #ededed;
+    text-decoration: none !important; }
+
+html {
+  background-color: #171717;
+  color: #ededed;
+  font-size: 15px;
+  font-family: Helvetica, Arial, sans-serif; }
+
+.clearb {
+  clear: both; }
+
+.w960 {
+  width: 960px;
+  margin: 0 auto;
+  position: relative; }
+
+.spacer {
+  margin: 20px; }
+
+.smallspacer {
+  margin: 10px 0px 10px 0px; }
+
+.simplemsg {
+  padding: 4px 0px 4px 0px;
+  text-align: center; }
+
+.error, .message {
+  margin-bottom: 15px;
+  background-color: #1f1f1f;
+  border: 1px solid #3d3d3d; }
+  .error h1, .message h1 {
+    margin: 0px;
+    padding: 2px 0px 2px 4px;
+    font-size: 1em;
+    text-shadow: black 1px 1px 1px; }
+  .error p, .message p {
+    margin: 10px 40px 5px 10px; }
+
+.error h1 {
+  background-color: #430909; }
+
+.message h1 {
+  background-color: #094309; }
+
+.errorExplanation h2 {
+  font-size: 1.1em !important;
+  margin: 0px !important;
+  background-color: #430909;
+  padding: 3px 0px 3px 6px;
+  border-top: 1px solid #3d3d3d;
+  border-bottom: 1px solid #3d3d3d; }
+.errorExplanation p {
+  padding-left: 6px; }
+
+.text-center {
+  text-align: center; }
+
+.nomargin {
+  margin: 0 !important; }
+
+.alliance {
+  color: #0070dd !important; }
+
+.horde {
+  color: #ff2020 !important; }
+
+.hunter {
+  color: #aad372 !important; }
+
+.warlock {
+  color: #9382c9 !important; }
+
+.priest {
+  color: white !important; }
+
+.paladin {
+  color: #f48cba !important; }
+
+.mage {
+  color: #68ccef !important; }
+
+.rogue {
+  color: #fff468 !important; }
+
+.druid {
+  color: #ff7c0a !important; }
+
+.shaman {
+  color: #0070dd !important; }
+
+.warrior {
+  color: #c69b68 !important; }
+
+.deathknight {
+  color: #c41e3a !important; }
+
+.green {
+  color: #18c904 !important; }
+
+.yellow {
+  color: #d8e307 !important; }
+
+.red {
+  color: #c90808 !important; }
+
+.white {
+  color: #ededed !important; }
+
+.blue {
+  color: #0000e8 !important; }
+
+.orange {
+  color: #f28107 !important; }
+
+.skull {
+  vertical-align: middle; }
+
+.gold-text, .statamount {
+  color: #f3c90c !important; }
+
+.tinyinput {
+  width: 50px !important; }
+
+.pointer {
+  cursor: pointer; }
+
+.fieldWithErrors {
+  display: inline; }
+
+.invisible {
+  display: none; }
+
+.focused {
+  border: 1px solid #ededed !important; }
+
+.filled {
+  color: #ededed !important;
+  font-style: normal !important; }
+
+.shadow {
+  background-color: #1f1f1f;
+  border: 1px solid #3d3d3d;
+  -webkit-box-shadow: 2px 2px 1px black;
+  -moz-box-shadow: 2px 2px 1px black;
+  box-shadow: 2px 2px 1px black; }
+
+input[type="submit"] {
+  vertical-align: middle;
+  background-color: #262626;
+  border: 1px solid #3d3d3d;
+  color: #f3c90c;
+  padding: 0px 6px 0px 6px !important;
+  font-size: 14px; }
+
+input[type="password"], input[type="text"], textarea {
+  vertical-align: middle;
+  padding-left: 3px;
+  background-color: #262626;
+  border: 1px solid #3d3d3d;
+  color: #ededed;
+  width: 100px;
+  height: 18px;
+  font-size: 13px; }
+
+.menu {
+  height: 25px;
+  line-height: 25px;
+  padding-left: 6px;
+  padding-right: 6px; }
+  .menu .account {
+    float: right;
+    padding: 0px 3px 0px 3px; }
+  .menu ul {
+    list-style: none;
+    margin: 0px;
+    padding: 0px; }
+    .menu ul li {
+      float: left;
+      padding-right: 40px;
+      margin-right: 10px; }
+      .menu ul li ul {
+        border: 1px solid #3d3d3d;
+        position: absolute;
+        list-style: none;
+        z-index: 100;
+        -webkit-box-shadow: 2px 2px 3px black;
+        -moz-box-shadow: 2px 2px 3px black;
+        box-shadow: 2px 2px 3px black; }
+        .menu ul li ul li {
+          margin: 0px;
+          float: none;
+          padding-left: 3px; }
+  .menu .highlight {
+    color: #ededed !important; }
+  .menu .text {
+    padding-right: 4px;
+    color: #f3c90c; }
+  .menu .arrow {
+    float: right;
+    position: relative;
+    left: 14px;
+    top: -14px;
+    height: 5px;
+    width: 9px;
+    background-repeat: no-repeat; }
+  .menu .down {
+    background-image: url("/images/sortdown.png"); }
+  .menu .up {
+    background-image: url("/images/sortup.png"); }
+
+.tabs, .mainexp {
+  position: relative;
+  z-index: 1;
+  margin-top: 20px;
+  color: #f3c90c;
+  font-weight: bold;
+  text-shadow: black 1px 1px 1px; }
+  .tabs .highlight, .mainexp .highlight {
+    background-image: url("/images/header-light.png") !important;
+    background-repeat: repeat !important;
+    color: #ededed;
+    cursor: pointer; }
+  .tabs .selected, .mainexp .selected {
+    color: #ededed; }
+  .tabs .tab, .mainexp .tab {
+    background-image: url("/images/header-dark.png");
+    background-repeat: repeat;
+    padding: 6px 10px 3px 10px;
+    margin: 0px 3px 0px 0px;
+    border-color: #3d3d3d;
+    border-width: 1px 1px 0px 1px;
+    border-style: solid;
+    -webkit-box-shadow: 1px 0px 2px black;
+    -moz-box-shadow: 1px 0px 2px black;
+    box-shadow: 1px 0px 2px black;
+    -moz-border-radius-topleft: 5px;
+    -webkit-border-top-left-radius: 5px;
+    border-top-left-radius: 5px;
+    -moz-border-radius-topright: 5px;
+    -webkit-border-top-right-radius: 5px;
+    border-top-right-radius: 5px; }
+    .tabs .tab .text, .mainexp .tab .text {
+      position: relative;
+      top: -2px; }
+
+.mainexp .tab {
+  position: relative;
+  top: -1px; }
+
+.expselect {
+  padding: 5px 0px 5px 0px; }
+  .expselect img {
+    vertical-align: middle;
+    padding: 0px; }
+  .expselect label {
+    vertical-align: middle;
+    color: #f3c90c;
+    padding: 0px 4px 0px 6px; }
+  .expselect span {
+    padding-right: 25px; }
+  .expselect select {
+    vertical-align: middle;
+    background-color: #262626;
+    border: 1px solid #3d3d3d;
+    color: #ededed;
+    padding: 2px; }
+  .expselect optgroup {
+    color: #f3c90c;
+    font-size: 1.1em;
+    padding: 2px;
+    font-style: normal; }
+  .expselect option {
+    color: #ededed; }
+
+.armory .search {
+  position: relative;
+  z-index: 1;
+  padding: 10px 0px 10px 0px;
+  margin-top: 2px;
+  background-color: #1f1f1f;
+  border: 1px solid #3d3d3d; }
+  .armory .search #f-items input[type="text"] {
+    width: 200px; }
+  .armory .search #f-items select {
+    width: 125px; }
+  .armory .search .container {
+    padding-left: 6px; }
+    .armory .search .container label {
+      vertical-align: middle;
+      margin-left: 15px;
+      font-size: 14px;
+      color: #f3c90c; }
+    .armory .search .container select {
+      vertical-align: middle;
+      background-color: #262626;
+      border: 1px solid #3d3d3d;
+      color: #ededed;
+      padding: 2px; }
+    .armory .search .container .region select {
+      width: 50px; }
+    .armory .search .container .arch select {
+      margin-left: 4px;
+      width: 75px; }
+    .armory .search .container .region option {
+      color: #f3c90c; }
+    .armory .search .container .name input,
+    .armory .search .container .realm input {
+      margin-left: 4px; }
+    .armory .search .container input[type="checkbox"] {
+      vertical-align: middle; }
+    .armory .search .container .submit input {
+      margin-left: 15px;
+      width: 75px; }
+
+.header, .spaceheader {
+  background-image: url("/images/header-dark.png"); }
+
+.lightheader {
+  background-color: #262626;
+  border-top: 1px solid #3d3d3d;
+  border-bottom: 1px solid #3d3d3d; }
+
+.header, .lightheader, .spaceheader {
+  padding-left: 6px;
+  margin: 0px;
+  color: #f3c90c;
+  text-shadow: black 1px 1px 1px;
+  font-size: 1em;
+  height: 25px;
+  line-height: 25px; }
+
+.spaceheader {
+  border-bottom: 1px solid #3d3d3d; }
+
+.rowsep {
+  border-top: 1px solid #3d3d3d; }
+
+.news h1 {
+  height: 25px;
+  line-height: 25px;
+  text-shadow: black 1px 1px 1px;
+  font-size: 1em; }
+.news .header a {
+  float: right;
+  padding-right: 6px; }
+.news .title {
+  padding-left: 6px;
+  color: #f3c90c; }
+.news .author {
+  float: right;
+  color: #ededed;
+  background-color: #1f1f1f;
+  padding-right: 6px;
+  padding-left: 6px; }
+.news .time {
+  float: right;
+  color: #ededed;
+  background-color: #1f1f1f;
+  padding-right: 6px;
+  padding-left: 6px; }
+.news div {
+  padding: 2px 40px 0px 14px;
+  margin: 5px; }
+.news li {
+  padding: 0px 40px 0px 6px; }
+.news ul {
+  padding-left: 40px; }
+  .news ul br {
+    display: none; }
+.news .modified {
+  margin-top: 15px;
+  font-style: italic; }
+
+.post .errormsg, .newaccount .errormsg, .openid .errormsg, .login .errormsg {
+  color: #ededed;
+  background-color: #430909; }
+.post .rowsep label, .newaccount .rowsep label, .openid .rowsep label, .login .rowsep label {
+  width: 20%;
+  float: left;
+  color: #f3c90c;
+  padding-left: 6px;
+  margin: 2px 0px 2px 0px; }
+.post .rowsep, .newaccount .rowsep, .openid .rowsep, .login .rowsep {
+  padding: 6px 0px 6px 4px; }
+.post textarea, .newaccount textarea, .openid textarea, .login textarea {
+  height: 400px;
+  width: 650px; }
+.post input[type="text"], .post input[type="password"], .newaccount input[type="text"], .newaccount input[type="password"], .openid input[type="text"], .openid input[type="password"], .login input[type="text"], .login input[type="password"] {
+  width: 130px; }
+
+.openid p {
+  padding-left: 10px;
+  margin: 4px 0px 4px 0px; }
+.openid input[type="text"] {
+  width: 160px; }
+.openid input[type="submit"] {
+  height: 22px; }
+
+.newaccount input[type="submit"], .login input[type="submit"] {
+  width: 100px; }
+.newaccount .reminder, .login .reminder {
+  padding-left: 6px;
+  margin: 4px 0px 4px 0px; }
+
+.mirror p {
+  padding-left: 10px; }
+
+.faq p {
+  padding-left: 10px;
+  padding-bottom: 10px;
+  line-height: 1.5em; }
+.faq .nopad {
+  padding-bottom: 0px !important; }
+.faq ul {
+  padding-bottom: 5px; }
+
+.api p {
+  padding-left: 10px;
+  padding-bottom: 5px;
+  line-height: 18px; }
+  .api p b {
+    line-height: 20px; }
+
+.powered p {
+  padding-left: 10px;
+  margin-bottom: 8px; }
+  .powered p b {
+    line-height: 20px; }
+.powered .code {
+  padding-bottom: 10px;
+  padding-left: 10px; }
+  .powered .code textarea {
+    width: 97%;
+    height: 18px; }
+
+.account p, .account #claim, .account #example {
+  padding-left: 10px;
+  line-height: 18px; }
+  .account p b, .account #claim b, .account #example b {
+    line-height: 20px; }
+
+.accountnav {
+  padding: 5px 6px 5px 6px; }
+
+.account {
+  position: relative; }
+  .account .claim {
+    width: 473px;
+    float: left; }
+    .account .claim .example {
+      font-size: 12px; }
+    .account .claim #example {
+      padding-bottom: 15px; }
+    .account .claim ol li {
+      line-height: 21px; }
+    .account .claim img {
+      vertical-align: middle; }
+    .account .claim .url {
+      padding-left: 10px; }
+    .account .claim .submit {
+      padding-top: 15px;
+      padding-left: 10px;
+      padding-bottom: 10px; }
+    .account .claim input[type="submit"] {
+      height: 23px;
+      width: 100px; }
+    .account .claim input[type="text"] {
+      width: 410px;
+      vertical-align: middle; }
+  .account .manage {
+    width: 473px;
+    float: left;
+    margin-left: 10px; }
+    .account .manage select {
+      background-color: #262626;
+      border: 1px solid #3d3d3d;
+      color: #ededed;
+      vertical-align: middle;
+      position: relative;
+      top: 5px; }
+    .account .manage .rowdiv {
+      border-top: 2px solid #171717; }
+    .account .manage .submit {
+      text-align: right;
+      padding-top: 5px;
+      padding-right: 3px; }
+      .account .manage .submit input[type="submit"] {
+        height: 25px; }
+    .account .manage .row {
+      height: 32px;
+      line-height: 32px;
+      vertical-align: middle; }
+      .account .manage .row .name {
+        width: 230px;
+        float: left;
+        padding-left: 6px; }
+      .account .manage .row .public {
+        border-left: 2px solid #171717;
+        width: 85px;
+        float: left;
+        text-align: center;
+        height: 32px;
+        vertical-align: middle; }
+      .account .manage .row .relationship {
+        border-left: 2px solid #171717;
+        width: 85px;
+        float: left;
+        text-align: center;
+        height: 32px;
+        vertical-align: middle; }
+      .account .manage .row .delete {
+        border-left: 2px solid #171717;
+        width: 55px;
+        float: left;
+        text-align: center;
+        height: 32px; }
+
+.itemlist, .grouplist, .guildlist, .ranklist, .realmlist, .regionlist {
+  position: relative;
+  z-index: 2; }
+  .itemlist .highlight, .grouplist .highlight, .guildlist .highlight, .ranklist .highlight, .realmlist .highlight, .regionlist .highlight {
+    color: #ededed !important;
+    cursor: pointer; }
+  .itemlist .rowdiv, .grouplist .rowdiv, .guildlist .rowdiv, .ranklist .rowdiv, .realmlist .rowdiv, .regionlist .rowdiv {
+    border-top: 2px solid #171717; }
+  .itemlist .fillrow, .grouplist .fillrow, .guildlist .fillrow, .ranklist .fillrow, .realmlist .fillrow, .regionlist .fillrow {
+    width: 960px;
+    padding: 6px 0px 6px 6px;
+    float: left; }
+  .itemlist #loading, .grouplist #loading, .guildlist #loading, .ranklist #loading, .realmlist #loading, .regionlist #loading {
+    width: 950px;
+    padding: 0px 0px 0px 6px;
+    float: left;
+    line-height: 26px; }
+
+.realmlist .hrank, .realmlist .hname, .realmlist .halliance, .realmlist .hhorde, .realmlist .hratio, .realmlist .hilvl, .realmlist .hchange, .regionlist .hrank, .regionlist .hname, .regionlist .halliance, .regionlist .hhorde, .regionlist .hratio, .regionlist .hilvl, .regionlist .hchange {
+  float: left;
+  border-left: 2px solid #171717; }
+.realmlist .rank, .realmlist .name, .realmlist .totall, .realmlist .tothorde, .realmlist .ratio, .realmlist .ilvl, .realmlist .change, .regionlist .rank, .regionlist .name, .regionlist .totall, .regionlist .tothorde, .regionlist .ratio, .regionlist .ilvl, .regionlist .change {
+  float: left;
+  border-left: 2px solid #171717;
+  height: 26px;
+  line-height: 26px;
+  padding-left: 6px; }
+.realmlist .rank, .realmlist .hrank, .regionlist .rank, .regionlist .hrank {
+  border-left: none; }
+.realmlist .hname, .regionlist .hname {
+  width: 280px; }
+.realmlist .halliance, .realmlist .hhorde, .regionlist .halliance, .regionlist .hhorde {
+  width: 115px;
+  text-align: center; }
+.realmlist .hratio, .regionlist .hratio {
+  width: 100px;
+  text-align: center; }
+.realmlist .hrank, .regionlist .hrank {
+  text-align: center;
+  width: 75px;
+  padding: 0px; }
+.realmlist .hilvl, .regionlist .hilvl {
+  text-align: center;
+  width: 116px;
+  padding: 0px; }
+.realmlist .hchange, .regionlist .hchange {
+  width: 115px;
+  text-align: center; }
+.realmlist .name, .regionlist .name {
+  width: 280px; }
+.realmlist .totall, .realmlist .tothorde, .regionlist .totall, .regionlist .tothorde {
+  width: 115px;
+  text-align: center; }
+.realmlist .ratio, .regionlist .ratio {
+  width: 100px;
+  text-align: center; }
+.realmlist .rank, .regionlist .rank {
+  text-align: center;
+  width: 75px;
+  padding: 0px; }
+.realmlist .ilvl, .regionlist .ilvl {
+  text-align: center;
+  width: 116px;
+  padding: 0px; }
+.realmlist .change, .regionlist .change {
+  text-align: center;
+  width: 115px; }
+
+.guildlist .hname, .guildlist .hrank, .guildlist .hprimary, .guildlist .hsecondary, .guildlist .hilvl, .guildlist .hequip, .guildlist .henchants, .guildlist .hgems, .ranklist .hname, .ranklist .hrank, .ranklist .hprimary, .ranklist .hsecondary, .ranklist .hilvl, .ranklist .hequip, .ranklist .henchants, .ranklist .hgems {
+  float: left;
+  border-left: 2px solid #171717; }
+.guildlist .name, .guildlist .rank, .guildlist .primary_role, .guildlist .secondary_role, .guildlist .average, .guildlist .equip, .guildlist .enchant, .guildlist .gem, .ranklist .name, .ranklist .rank, .ranklist .primary_role, .ranklist .secondary_role, .ranklist .average, .ranklist .equip, .ranklist .enchant, .ranklist .gem {
+  float: left;
+  border-left: 2px solid #171717;
+  height: 26px;
+  line-height: 26px;
+  padding-left: 6px; }
+.guildlist .name, .guildlist .hname, .ranklist .name, .ranklist .hname {
+  border-left: none; }
+.guildlist .hname, .ranklist .hname {
+  width: 165px; }
+.guildlist .hrank, .ranklist .hrank {
+  text-align: center;
+  width: 75px;
+  padding: 0px; }
+.guildlist .hsecondary, .guildlist .hprimary, .ranklist .hsecondary, .ranklist .hprimary {
+  width: 145px; }
+.guildlist .hilvl, .ranklist .hilvl {
+  text-align: center;
+  width: 96px;
+  padding: 0px; }
+.guildlist .hequip, .ranklist .hequip {
+  text-align: center;
+  width: 100px;
+  padding: 0px; }
+.guildlist .henchants, .ranklist .henchants {
+  text-align: center;
+  width: 100px;
+  padding: 0px; }
+.guildlist .hgems, .ranklist .hgems {
+  text-align: center;
+  width: 100px;
+  padding: 0px; }
+.guildlist .name, .ranklist .name {
+  width: 165px; }
+.guildlist .rank, .ranklist .rank {
+  width: 75px;
+  text-align: center;
+  padding-left: 0px; }
+.guildlist .primary_role, .guildlist .secondary_role, .ranklist .primary_role, .ranklist .secondary_role {
+  width: 145px;
+  padding-left: 6px;
+  vertical-align: middle; }
+.guildlist .average, .ranklist .average {
+  width: 96px;
+  text-align: center;
+  padding-left: 0px; }
+.guildlist .equip, .ranklist .equip {
+  width: 100px;
+  text-align: center;
+  padding-left: 0px; }
+.guildlist .enchant, .ranklist .enchant {
+  width: 100px;
+  text-align: center;
+  padding-left: 0px; }
+.guildlist .gem, .ranklist .gem {
+  width: 100px;
+  text-align: center;
+  padding-left: 0px; }
+
+.ranklist .hname, .ranklist .name {
+  border-left: 2px solid #171717; }
+.ranklist .hrank, .ranklist .rank {
+  border-left: none; }
+
+.grouplist .hname, .grouplist .hexpn, .grouplist .hexph, .grouplist .hprimary, .grouplist .hsecondary, .grouplist .hilvl, .grouplist .hequip, .grouplist .henchants, .grouplist .hgems {
+  float: left;
+  border-left: 2px solid #171717; }
+.grouplist .name, .grouplist .exph, .grouplist .expn, .grouplist .primary_role, .grouplist .secondary_role, .grouplist .average, .grouplist .equip, .grouplist .enchant, .grouplist .gem {
+  float: left;
+  border-left: 2px solid #171717;
+  height: 26px;
+  line-height: 26px;
+  padding-left: 6px; }
+.grouplist .name, .grouplist .hname {
+  border-left: none; }
+.grouplist .hname, .grouplist .name {
+  width: 141px; }
+.grouplist .hexpn, .grouplist .hexph, .grouplist .expn, .grouplist .exph {
+  text-align: center;
+  width: 90px;
+  padding: 0px; }
+.grouplist .hsecondary, .grouplist .hprimary, .grouplist .primary_role, .grouplist .secondary_role {
+  width: 145px; }
+.grouplist .hilvl, .grouplist .average {
+  text-align: center;
+  width: 70px;
+  padding: 0px; }
+.grouplist .hgems, .grouplist .henchants, .grouplist .hequip, .grouplist .equip, .grouplist .enchant, .grouplist .gem {
+  text-align: center;
+  width: 81px;
+  padding: 0px; }
+.grouplist .primary_role, .grouplist .secondary_role {
+  padding-left: 6px;
+  vertical-align: middle; }
+
+.itemlist .hname, .itemlist .hilvl, .itemlist .hspec, .itemlist .hsources {
+  float: left;
+  border-left: 2px solid #171717; }
+.itemlist .name, .itemlist .ilvl, .itemlist .spec, .itemlist .sources {
+  float: left;
+  border-left: 2px solid #171717;
+  height: 26px;
+  line-height: 26px;
+  padding-left: 6px; }
+.itemlist .hname, .itemlist .name {
+  border-left: none;
+  width: 484px; }
+  .itemlist .hname img, .itemlist .name img {
+    position: relative;
+    top: 1px;
+    padding-right: 5px; }
+  .itemlist .hname a, .itemlist .name a {
+    vertical-align: top; }
+.itemlist .hilvl, .itemlist .ilvl {
+  text-align: center;
+  width: 100px;
+  padding: 0px; }
+.itemlist .hspec, .itemlist .spec {
+  width: 150px; }
+.itemlist .hsources, .itemlist .sources {
+  width: 200px; }
+
+.relative {
+  width: 19% !important; }
+
+.cached {
+  position: relative;
+  z-index: 1;
+  width: 250px;
+  top: 1px;
+  height: 15px;
+  color: #d5d5d5;
+  float: left;
+  background-color: #1f1f1f;
+  padding: 4px 0px 4px 6px;
+  border-color: #3d3d3d;
+  border-width: 1px 1px 0px 1px;
+  border-style: solid;
+  -webkit-box-shadow: 1px 0px 2px black;
+  -moz-box-shadow: 1px 0px 2px black;
+  box-shadow: 1px 0px 2px black;
+  -moz-border-radius-topleft: 5px;
+  -webkit-border-top-left-radius: 5px;
+  border-top-left-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -webkit-border-top-right-radius: 5px;
+  border-top-right-radius: 5px; }
+  .cached .time {
+    font-size: 13px; }
+
+.paginate-top, .paginate-bottom {
+  position: relative;
+  z-index: 1;
+  height: 15px;
+  line-height: 15px;
+  width: 150px;
+  color: #ededed;
+  background-color: #1f1f1f;
+  float: left;
+  padding: 4px 0px 4px 0px;
+  text-align: center; }
+  .paginate-top .info, .paginate-bottom .info {
+    font-size: 13px;
+    line-height: 15px;
+    vertical-align: middle; }
+    .paginate-top .info a, .paginate-bottom .info a {
+      color: #f3c90c;
+      font-size: 18px;
+      text-decoration: none; }
+    .paginate-top .info a:hover, .paginate-bottom .info a:hover {
+      color: #ededed; }
+
+.paginate-top {
+  padding-bottom: 5px;
+  top: 1px;
+  -moz-border-radius-topleft: 5px;
+  -webkit-border-top-left-radius: 5px;
+  border-top-left-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -webkit-border-top-right-radius: 5px;
+  border-top-right-radius: 5px;
+  -webkit-box-shadow: 1px 0px 2px black;
+  -moz-box-shadow: 1px 0px 2px black;
+  box-shadow: 1px 0px 2px black;
+  border-color: #3d3d3d;
+  border-width: 1px 1px 0px 1px;
+  border-style: solid; }
+  .paginate-top .info {
+    position: relative;
+    top: -2px; }
+
+.paginate-bottom {
+  padding-top: 5px;
+  top: -1px;
+  z-index: 2;
+  -moz-border-radius-bottomleft: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  -moz-border-radius-bottomright: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  -webkit-box-shadow: 1px 2px 1px black;
+  -moz-box-shadow: 1px 2px 1px black;
+  box-shadow: 1px 2px 1px black;
+  border-color: #3d3d3d;
+  border-width: 1px 1px 1px 1px;
+  border-style: solid; }
+  .paginate-bottom .info {
+    position: relative;
+    top: -2px; }
+
+.character {
+  position: relative;
+  z-index: 2; }
+  .character .base {
+    height: 65px; }
+    .character .base .rowsep {
+      border-top: 2px solid #171717; }
+    .character .base .portraitimg {
+      height: 64px;
+      width: 64px;
+      float: left;
+      position: relative;
+      left: 1px;
+      top: 1px; }
+      .character .base .portraitimg .level {
+        position: relative;
+        padding: 1px 1px 2px 3px;
+        top: 43px;
+        text-shadow: black 1px 3px 3px;
+        text-align: left;
+        width: 20px;
+        font-size: 16px;
+        font-weight: bold;
+        -moz-border-radius-topright: 8px;
+        -webkit-border-top-right-radius: 8px;
+        border-top-right-radius: 8px;
+        background-color: #1f1f1f; }
+    .character .base .identify {
+      float: left;
+      border-left: 2px solid #171717;
+      height: 65px;
+      width: 190px; }
+      .character .base .identify .main {
+        padding-left: 6px;
+        padding-top: 2px;
+        height: 40px; }
+        .character .base .identify .main .title {
+          font-style: italic; }
+        .character .base .identify .main .smallsuffix {
+          position: relative;
+          top: 4px; }
+      .character .base .identify .guild {
+        border-top: 2px solid #171717;
+        padding-left: 6px;
+        height: 20px;
+        line-height: 22px !important;
+        vertical-align: middle; }
+      .character .base .identify .small, .character .base .identify .smallprefix, .character .base .identify .smallsuffix {
+        font-size: 12px; }
+    .character .base .talents {
+      float: left;
+      border-left: 1px solid #3d3d3d;
+      height: 65px;
+      width: 200px; }
+    .character .base .professions {
+      float: left;
+      border-left: 1px solid #3d3d3d;
+      height: 65px;
+      width: 180px; }
+    .character .base .talents img, .character .base .professions img {
+      width: 24px;
+      height: 24x; }
+    .character .base .talents .talent, .character .base .talents .profession, .character .base .professions .talent, .character .base .professions .profession {
+      height: 31px; }
+      .character .base .talents .talent .icon, .character .base .talents .profession .icon, .character .base .professions .talent .icon, .character .base .professions .profession .icon {
+        float: left;
+        width: 24px;
+        padding: 4px 0px 0px 4px; }
+      .character .base .talents .talent .name, .character .base .talents .profession .name, .character .base .professions .talent .name, .character .base .professions .profession .name {
+        float: left;
+        height: 31px;
+        line-height: 31px;
+        padding: 0px 6px 0px 6px; }
+      .character .base .talents .talent .sep, .character .base .talents .profession .sep, .character .base .professions .talent .sep, .character .base .professions .profession .sep {
+        float: left;
+        height: 31px;
+        border-right: 2px solid #171717; }
+      .character .base .talents .talent .type, .character .base .talents .talent .amount, .character .base .talents .profession .type, .character .base .talents .profession .amount, .character .base .professions .talent .type, .character .base .professions .talent .amount, .character .base .professions .profession .type, .character .base .professions .profession .amount {
+        float: left;
+        padding: 0px 0px 0px 6px;
+        height: 31px;
+        line-height: 31px; }
+    .character .base .talents .talent .name, .character .base .professions .talent .name {
+      width: 55px; }
+    .character .base .talents .talent .type, .character .base .professions .talent .type {
+      width: 96px; }
+    .character .base .talents .profession .name, .character .base .professions .profession .name {
+      width: 100px;
+      text-align: right; }
+    .character .base .talents .profession .type, .character .base .professions .profession .type {
+      width: 70px; }
+    .character .base .summary {
+      float: left;
+      border-left: 1px solid #3d3d3d;
+      font-size: 14px;
+      width: 319px;
+      height: 65px; }
+      .character .base .summary .label {
+        float: left;
+        height: 31px;
+        line-height: 31px;
+        text-align: right;
+        padding-right: 4px; }
+      .character .base .summary .amount {
+        float: right;
+        height: 31px;
+        line-height: 31px;
+        text-align: center;
+        border-left: 2px solid #171717; }
+      .character .base .summary .average, .character .base .summary .gems {
+        height: 31px;
+        width: 146px;
+        float: left;
+        white-space: nowrap; }
+        .character .base .summary .average .label, .character .base .summary .gems .label {
+          width: 96px; }
+        .character .base .summary .average .amount, .character .base .summary .gems .amount {
+          width: 44px; }
+      .character .base .summary .items, .character .base .summary .enchants {
+        height: 31px;
+        width: 170px;
+        float: left;
+        white-space: nowrap;
+        border-left: 2px solid #171717; }
+        .character .base .summary .items .label, .character .base .summary .enchants .label {
+          width: 118px; }
+        .character .base .summary .items .amount, .character .base .summary .enchants .amount {
+          width: 44px; }
+      .character .base .summary .gems, .character .base .summary .enchants {
+        border-top: 2px solid #171717; }
+
+.spec {
+  height: 114px; }
+  .spec .stats {
+    float: left;
+    width: 500px;
+    height: 112px; }
+    .spec .stats .rowsep {
+      border-top: 2px solid #171717; }
+    .spec .stats .linesep {
+      border-left: 2px solid #171717;
+      height: 100%;
+      width: 2px;
+      float: left; }
+    .spec .stats .fulllabel {
+      width: 160px;
+      height: 27px;
+      float: left;
+      text-align: right;
+      padding-right: 4px; }
+    .spec .stats .row {
+      height: 27px;
+      line-height: 27px; }
+    .spec .stats .label {
+      width: 94px;
+      float: left;
+      color: #f3c90c;
+      text-align: right;
+      padding-right: 4px; }
+    .spec .stats .amount {
+      width: 60px;
+      float: left;
+      border-left: 2px solid #171717;
+      text-align: left;
+      padding-left: 4px; }
+  .spec .glyphs {
+    margin-left: 10px;
+    float: left;
+    width: 446px;
+    height: 112px; }
+    .spec .glyphs .major {
+      width: 215px;
+      float: left;
+      border-right: 2px solid #3d3d3d; }
+    .spec .glyphs .minor {
+      width: 217px;
+      float: right; }
+    .spec .glyphs .rowsep {
+      border-top: 2px solid #171717;
+      float: left;
+      width: 100%; }
+    .spec .glyphs .linesep {
+      border-left: 2px solid #171717;
+      height: 27px;
+      width: 2px;
+      float: left; }
+    .spec .glyphs .row .left, .spec .glyphs .row .right {
+      width: 215px;
+      height: 27px;
+      line-height: 27px;
+      float: left;
+      position: relative;
+      padding-left: 4px;
+      top: -2px; }
+      .spec .glyphs .row .left img, .spec .glyphs .row .right img {
+        vertical-align: middle; }
+      .spec .glyphs .row .left a, .spec .glyphs .row .left span, .spec .glyphs .row .right a, .spec .glyphs .row .right span {
+        vertical-align: middle;
+        position: relative;
+        top: -1px;
+        padding-left: 2px;
+        color: #ededed; }
+        .spec .glyphs .row .left a:hover, .spec .glyphs .row .left span:hover, .spec .glyphs .row .right a:hover, .spec .glyphs .row .right span:hover {
+          color: #f3c90c; }
+      .spec .glyphs .row .left .none, .spec .glyphs .row .right .none {
+        color: #ededed !important; }
+
+.experience {
+  position: relative;
+  z-index: 2; }
+  .experience .headerlabel a {
+    height: 25px;
+    line-height: 25px;
+    position: relative;
+    top: -1px; }
+    .experience .headerlabel a:hover {
+      text-decoration: none; }
+  .experience .raid {
+    float: left;
+    width: 550px; }
+    .experience .raid .seprow {
+      float: left;
+      width: 550px;
+      border-bottom: 2px solid #171717; }
+    .experience .raid .headerlabel {
+      width: 196px;
+      height: 25px;
+      float: left;
+      border-bottom: 1px solid #3d3d3d; }
+    .experience .raid .headerexp {
+      width: 85px;
+      height: 25px;
+      float: left;
+      text-align: center;
+      padding: 0;
+      border-bottom: 1px solid #3d3d3d;
+      border-left: 2px solid #3d3d3d; }
+    .experience .raid .row {
+      height: 26px;
+      line-height: 26px;
+      float: left; }
+      .experience .raid .row .name {
+        width: 200px;
+        text-align: left;
+        float: left;
+        vertical-align: middle;
+        padding-left: 2px; }
+        .experience .raid .row .name img {
+          position: relative;
+          top: -1px;
+          vertical-align: middle; }
+        .experience .raid .row .name span {
+          padding-left: 2px;
+          vertical-align: middle; }
+      .experience .raid .row .tenman, .experience .raid .row .twofiveman, .experience .raid .row .htenman, .experience .raid .row .htwofiveman {
+        width: 85px;
+        float: left;
+        text-align: center;
+        border-left: 2px solid #171717; }
+        .experience .raid .row .tenman span, .experience .raid .row .twofiveman span, .experience .raid .row .htenman span, .experience .raid .row .htwofiveman span {
+          position: relative;
+          top: -1px; }
+  .experience .party {
+    float: right;
+    width: 396px;
+    margin-left: 10px; }
+    .experience .party .seprow {
+      float: left;
+      width: 396px;
+      border-bottom: 2px solid #171717; }
+    .experience .party .headerlabel {
+      width: 298px;
+      height: 25px;
+      float: left;
+      border-bottom: 1px solid #3d3d3d; }
+    .experience .party .headerexp {
+      width: 90px;
+      height: 25px;
+      float: left;
+      text-align: center;
+      padding: 0;
+      border-bottom: 1px solid #3d3d3d;
+      border-left: 2px solid #3d3d3d; }
+    .experience .party .filler {
+      width: 100%; }
+    .experience .party .row {
+      height: 26px;
+      line-height: 26px;
+      float: left; }
+      .experience .party .row .name {
+        width: 302px;
+        text-align: left;
+        float: left;
+        vertical-align: middle;
+        padding-left: 2px; }
+        .experience .party .row .name img {
+          position: relative;
+          top: -2px;
+          vertical-align: middle; }
+        .experience .party .row .name span {
+          padding-left: 2px;
+          vertical-align: middle; }
+      .experience .party .row .hfiveman {
+        border-left: 2px solid #171717;
+        width: 90px;
+        float: left;
+        text-align: center; }
+        .experience .party .row .hfiveman span {
+          position: relative;
+          top: -1px; }
+
+.equipwarn {
+  border: 1px solid #710f0f;
+  padding: 3px 0px 3px 6px;
+  line-height: 22px; }
+  .equipwarn div {
+    vertical-align: middle; }
+
+.equipment .seprow {
+  float: left;
+  width: 958px;
+  height: 2px;
+  background-color: #171717; }
+.equipment .hslot, .equipment .hupgrade, .equipment .hname, .equipment .hilvl, .equipment .htype, .equipment .hgems, .equipment .henchant {
+  float: left;
+  border-bottom: 1px solid #3d3d3d; }
+.equipment .hupgrade, .equipment .hname, .equipment .hilvl, .equipment .htype, .equipment .hgems, .equipment .henchant {
+  border-left: 2px solid #3d3d3d; }
+.equipment .hslot, .equipment .slot {
+  width: 108px; }
+.equipment .hupgrade, .equipment .upgrade {
+  width: 24px;
+  padding: 0px;
+  text-align: center; }
+.equipment .hname, .equipment .name {
+  width: 380px;
+  text-align: left; }
+.equipment .hilvl, .equipment .ilvl {
+  width: 55px;
+  text-align: center;
+  padding: 0px; }
+.equipment .htype, .equipment .type {
+  width: 160px;
+  text-align: left; }
+.equipment .hgems, .equipment .gems {
+  width: 118px;
+  text-align: center;
+  padding: 0px; }
+.equipment .henchant, .equipment .enchant {
+  width: 83px;
+  text-align: center;
+  padding: 0px; }
+.equipment .row {
+  height: 30px;
+  line-height: 30px; }
+  .equipment .row .slot, .equipment .row .upgrade, .equipment .row .name, .equipment .row .ilvl, .equipment .row .type, .equipment .row .gems, .equipment .row .enchant {
+    float: left;
+    padding-left: 6px;
+    height: 30px;
+    line-height: 30px; }
+    .equipment .row .slot img, .equipment .row .slot a, .equipment .row .upgrade img, .equipment .row .upgrade a, .equipment .row .name img, .equipment .row .name a, .equipment .row .ilvl img, .equipment .row .ilvl a, .equipment .row .type img, .equipment .row .type a, .equipment .row .gems img, .equipment .row .gems a, .equipment .row .enchant img, .equipment .row .enchant a {
+      vertical-align: middle; }
+  .equipment .row .upgrade, .equipment .row .name, .equipment .row .ilvl, .equipment .row .type, .equipment .row .gems, .equipment .row .enchant {
+    border-left: 2px solid #171717; }
+  .equipment .row .name img, .equipment .row .name a {
+    position: relative;
+    top: -1px; }
+  .equipment .row .ilvl, .equipment .row .gems, .equipment .row .enchant, .equipment .row .upgrade {
+    padding: 0px; }
+  .equipment .row .type img {
+    position: relative;
+    top: -2px; }
+  .equipment .row .upgrade img {
+    position: relative;
+    top: 7px; }
+  .equipment .row .gems img, .equipment .row .enchant img {
+    padding: 0px 2px 0px 2px; }
+  .equipment .row .gems div, .equipment .row .enchant div {
+    position: relative;
+    top: 4px; }
+
+.upgrades {
+  position: relative;
+  z-index: 2; }
+  .upgrades .rowdiv {
+    border-top: 2px solid #171717;
+    width: 958px;
+    float: left; }
+  .upgrades .header {
+    border-bottom: 1px solid #3d3d3d; }
+  .upgrades .row {
+    height: 26px;
+    line-height: 26px; }
+    .upgrades .row .nopad {
+      padding-left: 0px !important; }
+    .upgrades .row .label {
+      width: 130px;
+      float: left;
+      color: #f3c90c;
+      padding-left: 4px;
+      border-right: 2px solid #171717; }
+    .upgrades .row .value {
+      width: 816px;
+      float: left;
+      padding-left: 6px; }
+      .upgrades .row .value img {
+        vertical-align: middle; }
+      .upgrades .row .value a {
+        vertical-align: middle;
+        padding-left: 2px;
+        position: relative;
+        top: -1px; }
+
+.itemrestrict .row {
+  padding: 10px 0px 10px 6px; }
+  .itemrestrict .row label {
+    vertical-align: middle;
+    margin-left: 15px;
+    font-size: 14px;
+    color: #f3c90c; }
+  .itemrestrict .row select {
+    vertical-align: middle;
+    background-color: #262626;
+    border: 1px solid #3d3d3d;
+    color: #ededed;
+    padding: 2px;
+    margin-right: 10px; }
+  .itemrestrict .row input[type="checkbox"] {
+    vertical-align: middle; }
+  .itemrestrict .row input[type="submit"] {
+    margin-left: 15px;
+    width: 75px; }
+
+.expinfo .atoggle {
+  position: relative;
+  top: -2px !important; }
+.expinfo p {
+  margin-top: 10px;
+  padding-left: 10px;
+  padding-right: 50px; }
+.expinfo .header span {
+  position: relative;
+  top: -1px; }
+.expinfo .header img {
+  position: relative;
+  top: 3px; }
+.expinfo .raid .rowsep {
+  border-top: 1px solid #3d3d3d;
+  width: 958px;
+  float: left; }
+.expinfo .raid .label {
+  width: 349px;
+  height: 25px;
+  float: left;
+  padding-left: 4px; }
+  .expinfo .raid .label span {
+    position: relative;
+    top: -2px; }
+  .expinfo .raid .label .atoggle {
+    position: relative;
+    top: -3px !important; }
+.expinfo .raid .exp {
+  width: 95px;
+  height: 25px;
+  float: left;
+  text-align: center;
+  padding: 0;
+  border-left: 2px solid #3d3d3d; }
+  .expinfo .raid .exp .skull {
+    position: relative;
+    top: -1px; }
+.expinfo .raid .fill {
+  width: 209px;
+  height: 25px;
+  float: left;
+  border-left: 2px solid #3d3d3d; }
+.expinfo .raid .rowdiv {
+  float: left;
+  width: 958px;
+  border-top: 2px solid #171717; }
+.expinfo .raid .row {
+  width: 958px;
+  height: 26px;
+  line-height: 26px;
+  float: left; }
+  .expinfo .raid .row .name {
+    width: 349px;
+    text-align: left;
+    float: left;
+    vertical-align: middle;
+    padding-left: 4px; }
+    .expinfo .raid .row .name img {
+      position: relative;
+      top: -1px;
+      vertical-align: middle; }
+    .expinfo .raid .row .name span {
+      padding-left: 2px;
+      vertical-align: middle; }
+  .expinfo .raid .row .tenman, .expinfo .raid .row .twofiveman, .expinfo .raid .row .htenman, .expinfo .raid .row .htwofiveman {
+    width: 95px;
+    float: left;
+    text-align: center;
+    border-left: 2px solid #171717; }
+    .expinfo .raid .row .tenman span, .expinfo .raid .row .twofiveman span, .expinfo .raid .row .htenman span, .expinfo .raid .row .htwofiveman span {
+      position: relative;
+      top: 1px; }
+  .expinfo .raid .row .rowfill {
+    width: 211px;
+    height: 26px;
+    float: left;
+    border-left: 2px solid #171717; }
+.expinfo .partysep {
+  margin-right: 10px; }
+.expinfo .party {
+  float: left;
+  width: 473px; }
+  .expinfo .party .rowsep {
+    border-top: 1px solid #3d3d3d;
+    width: 473px;
+    float: left; }
+  .expinfo .party .label {
+    width: 372px;
+    height: 25px;
+    float: left;
+    padding-left: 4px; }
+    .expinfo .party .label span {
+      position: relative;
+      top: -2px; }
+    .expinfo .party .label .atoggle {
+      position: relative;
+      top: -3px !important; }
+  .expinfo .party .exp {
+    width: 95px;
+    height: 25px;
+    float: left;
+    text-align: center;
+    padding: 0;
+    border-left: 2px solid #3d3d3d; }
+    .expinfo .party .exp .skull {
+      position: relative;
+      top: -1px; }
+  .expinfo .party .rowdiv {
+    float: left;
+    width: 473px;
+    border-top: 2px solid #171717; }
+  .expinfo .party .row {
+    width: 473px;
+    height: 26px;
+    line-height: 26px;
+    float: left; }
+    .expinfo .party .row .name {
+      width: 372px;
+      text-align: left;
+      float: left;
+      vertical-align: middle;
+      padding-left: 4px; }
+      .expinfo .party .row .name img {
+        position: relative;
+        top: -1px;
+        vertical-align: middle; }
+      .expinfo .party .row .name span {
+        padding-left: 2px;
+        vertical-align: middle; }
+    .expinfo .party .row .fiveman {
+      width: 95px;
+      float: left;
+      text-align: center;
+      border-left: 2px solid #171717; }
+      .expinfo .party .row .fiveman span {
+        position: relative;
+        top: 1px; }
+
+.list .rowdiv {
+  border-bottom: 2px solid #171717;
+  width: 473px;
+  float: left; }
+.list .sametype {
+  width: 473px;
+  float: left; }
+.list .simtype {
+  width: 473px;
+  float: left;
+  margin-left: 10px; }
+.list .row {
+  width: 473px;
+  height: 28px;
+  line-height: 26px; }
+  .list .row .fill {
+    width: 473px;
+    height: 28px;
+    float: left;
+    padding-left: 6px; }
+  .list .row .nopad {
+    padding-left: 0px; }
+  .list .row .name {
+    height: 28px;
+    line-height: 24px;
+    width: 332px;
+    float: left;
+    padding-left: 6px; }
+    .list .row .name img {
+      vertical-align: middle; }
+    .list .row .name a {
+      vertical-align: middle;
+      padding-left: 2px; }
+  .list .row .quality {
+    width: 44px;
+    height: 28px;
+    line-height: 28px;
+    float: left;
+    border-left: 2px solid #171717;
+    vertical-align: middle;
+    text-align: center; }
+  .list .row .source {
+    width: 80px;
+    height: 28px;
+    line-height: 28px;
+    float: left;
+    border-left: 2px solid #171717;
+    vertical-align: middle;
+    padding-left: 6px; }
+
+.results {
+  padding: 6px; }
+
+.eapowered {
+  max-width: 23em; }
+  .eapowered .title {
+    font-size: 110%;
+    float: left;
+    padding-bottom: 5px; }
+    .eapowered .title .guild {
+      width: 100%;
+      float: left;
+      color: #d4d4d4;
+      font-size: 90%; }
+  .eapowered .base, .eapowered .ilvl, .eapowered .enchantsum {
+    float: left;
+    width: 50%;
+    text-align: left; }
+  .eapowered .talents, .eapowered .itemsum, .eapowered .gemsum {
+    float: right;
+    width: 50%;
+    text-align: right; }
+
+.simplebox .rowdiv {
+  border-top: 2px solid #171717; }
+.simplebox .darkbg, .simplebox .lightbg {
+  padding: 4px 0px 4px 6px;
+  height: 18px;
+  line-height: 18px; }
+
+.queue #message, .queue #status {
+  padding: 4px 0px 4px 0px;
+  height: 18px;
+  line-height: 18px; }
+.queue #message {
+  border-bottom: 2px solid #171717; }
+
+.darkbg {
+  background: #1f1f1f; }
+
+.lightbg {
+  background: #262626; }
+
+.ascbg {
+  background: #252525; }
+
+.descbg {
+  background: #1e1e1e; }
+
+.copyright {
+  font-size: 11px; }
+
+.ac_odd {
+  background: #1f1f1f; }
+
+.ac_even {
+  background: #262626; }
+
+.ac_over {
+  background-color: #000023;
+  color: #ededed; }
+
+.ac_results {
+  width: 125px !important;
+  margin-top: 2px;
+  padding: 0px;
+  border: 1px solid #3d3d3d;
+  background-color: #ededed;
+  overflow: hidden;
+  z-index: 99999;
+  color: #f3c90c; }
+  .ac_results ul {
+    width: 100%;
+    list-style-position: outside;
+    list-style: none;
+    padding: 0;
+    margin: 0; }
+  .ac_results li {
+    margin: 0px;
+    padding: 2px 5px;
+    cursor: default;
+    display: block;
+    font: menu;
+    font-size: 12px;
+    line-height: 16px;
+    overflow: hidden; }

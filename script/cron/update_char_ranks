@@ -1,0 +1,67 @@
+#!/usr/bin/env ruby
+RAILS_ROOT = File.expand_path(File.join(File.dirname(__FILE__), "..", ".."))
+Dir.chdir(RAILS_ROOT)
+require "rubygems"
+require "#{RAILS_ROOT}/config/environment"
+puts "Creating rankings"
+
+config_option("armories").each do |region|
+	puts "Updating rankings for #{region}"
+	region = region.downcase
+	
+	ActiveRecord::Base.transaction do
+		rank_cache = {}
+		Rankings.find(:all, :conditions => ["primary_rank = ? and region = ?", "character", region]).each do |data|
+			rank_cache[data.rank] = data
+		end
+		
+		added_characters = {}
+
+		rank_id = 0
+		Character.find(:all, :select => "characters.realm, characters.hash_id, talents.average_ilvl * ((talents.equip_percent + talents.gem_percent + talents.enchant_percent) / 3) as modified_ilvl, talents.equip_percent, talents.gem_percent, talents.enchant_percent, talents.average_ilvl", :conditions => ["has_achievements = ? and has_talents = ? and region = ?", true, true, region.downcase], :joins => :talents, :order => "modified_ilvl DESC", :limit => config_option("ranking")["cap"] * 2).each do |character|
+			next if added_characters[character.hash_id]
+			added_characters[character.hash_id]
+			
+			rank_id += 1
+			rank_data = rank_cache[rank_id] || Rankings.new
+			rank_data.rank = rank_id
+			rank_data.region = region
+			rank_data.realm = character.realm
+			rank_data.character_hash = character.hash_id
+			rank_data.primary_rank = "character"
+			rank_data.average_ilvl = character.modified_ilvl.to_f
+			rank_data.equip_percent = character.equip_percent
+			rank_data.gem_percent = character.gem_percent
+			rank_data.enchant_percent = character.enchant_percent
+			rank_data.save
+		end
+	end
+	
+	Rails.cache.delete("rank/char/timer/#{region}")
+	Rails.cache.delete("rank/char/#{region}")
+end
+
+# Do the global rankings
+puts "Updating global rankings"
+
+ActiveRecord::Base.transaction do
+	rank_cache = {}
+	Rankings.find(:all, :conditions => {:primary_rank => "character", :region => "global"}).each do |data|
+		rank_cache[data.rank] = data
+	end
+	
+	rank_id = 0
+	Rankings.find(:all, :conditions => ["primary_rank = ? and region != ?", "character", "global"], :order => "average_ilvl DESC").each do |rank|
+		rank_id += 1
+		rank_data = rank_cache[rank_id] || Rankings.new
+		rank_data.attributes = rank.attributes
+		rank_data.rank = rank_id
+		rank_data.region = "global"
+		rank_data.save
+	end
+end
+
+
+Rails.cache.delete("rank/char/timer/global")
+Rails.cache.delete("rank/char/global")
+puts "Finished"

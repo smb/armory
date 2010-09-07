@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby-with-env
+RAILS_ROOT = File.expand_path(File.join(File.dirname(__FILE__), ".."))
+require "rubygems"
+require "#{RAILS_ROOT}/config/environment"
+Dir.chdir RAILS_ROOT
+
+puts "Recaching all characters in the last 24 hours"
+
+char_list = {}
+Character.find(:all, :select => "hash_id, region, realm, name", :conditions => ["updated_at >= ?", 24.hours.ago]).each do |character|
+	char_list[character.hash_id] = {:realm => character.realm, :region => character.region, :name => character.name, :character_hash => character.hash_id, :priority => 4}
+	puts "Found #{character.hash_id}"
+end
+
+puts "Queuing #{char_list.length} characters"
+DataManager.mass_queue_characters(true, char_list)
+

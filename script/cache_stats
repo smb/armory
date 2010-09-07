@@ -1,0 +1,102 @@
+#!/usr/bin/env ruby-with-env
+RAILS_ROOT = File.expand_path(File.join(File.dirname(__FILE__), ".."))
+require "rubygems"
+require "#{RAILS_ROOT}/config/environment"
+Dir.chdir RAILS_ROOT
+
+puts "Updating all player flags"
+
+total = Character.count(:all, :conditions => ["active_group is not null and spec_role is not null"])
+puts "Found #{total} characters"
+
+offset = 0
+updated = 0
+per_batch = 500
+
+def create_statistics(args)
+	statistic = args[:statistic] || ItemStatistic.new
+	statistic.character_id = args[:char].id
+	statistic.character_level = args[:char].level
+	statistic.average_ilvl = args[:char].average_ilvl
+	statistic.spec_role = args[:char].spec_role
+	statistic.equipment_id = args[:equipment_id]
+	statistic.socket_color = args[:socket_color]
+	statistic.item_type = args[:item_type]
+	statistic.item_id = args[:item_id]
+	statistic.enchant_id = args[:enchant_id]
+	statistic.save
+end
+
+while offset <= total do
+	ActiveRecord::Base.transaction do 
+		Character.find(:all, :conditions => ["active_group is not null and spec_role is not null"], :limit => per_batch, :offset => offset).each do |character|
+			updated += 1
+			# First off, cache all the info
+			item_stats = {}
+			ItemStatistic.find(:all, :conditions => {:character_id => character.id}).each do |stat|
+				item_stats[stat.equipment_id] ||= {}
+				if stat.item_type == ITEMS["EQUIP_TYPES"][:gear] then
+					item_stats[stat.equipment_id][:equip] = stat
+				elsif stat.item_type == ITEMS["EQUIP_TYPES"][:gem] then
+					item_stats[stat.equipment_id][:gems] ||= []
+					item_stats[stat.equipment_id][:gems].push(stat)
+				elsif stat.item_type == ITEMS["EQUIP_TYPES"][:enchant] then
+					item_stats[stat.equipment_id][:enchant] = stat
+				end
+			end
+
+			ActiveRecord::Base.transaction do
+				character.equipment.all(:conditions => {:group_id => character.active_group}, :include => [:item, :item_gem1, :item_gem2, :item_gem3, :item_enchant, :spell_enchant]).each do |equipment|
+					next if equipment.item.nil? || !equipment.valid_equip?(character)
+					stats = item_stats[equipment.equipment_id] || {}
+
+					# Equipment
+					create_statistics(:statistic => stats[:equip], :char => character, :equipment_id => equipment.equipment_id, :item_type => ITEMS["EQUIP_TYPES"][:gear], :item_id => equipment.item.item_id)
+
+					# Enchant
+					if equipment.item_enchant or equipment.spell_enchant
+						enchant = {:statistic => stats[:enchant], :char => character, :equipment_id => equipment.equipment_id, :item_type => ITEMS["EQUIP_TYPES"][:enchant]}
+						enchant[:item_id] = equipment.item_enchant.item_id unless equipment.item_enchant.nil?
+						enchant[:enchant_id] = equipment.spell_enchant.enchant_id unless equipment.spell_enchant.nil?
+
+						create_statistics(enchant)
+					end
+
+					# Gems
+					(1..equipment.total_gems).each do |index|
+						gem_data = equipment.send("item_gem#{index}")
+						next if gem_data.nil? or equipment["gem#{index}_id"].nil?
+
+						gem_stat = stats[:gems] && stats[:gems][index - 1]
+						create_statistics(:statistic => gem_stat, :char => character, :equipment_id => equipment.equipment_id, :item_type => ITEMS["EQUIP_TYPES"][:gem], :item_id => gem_data.item_id, :socket_color => ITEMS["SOCKET_COLORS"][equipment.socket_color(index)])
+
+						stats[:gems][index - 1] = nil unless stats[:gems].nil?
+					end
+
+					# Clean up
+					stats.delete(:equip)
+					stats.delete(:enchant)
+				end
+
+				# Remove anything that was untouched
+				item_stats.each do |equip_id, equipment|
+					equipment[:equip].destroy unless equipment[:equip].nil?
+					equipment[:enchant].destroy unless equipment[:enchant].nil?
+
+					unless equipment[:gems].nil?
+						equipment[:gems].each do |stat|
+							stat.destroy unless stat.nil?
+						end
+					end
+				end
+			end
+			
+			puts "[#{total - updated}] ##{character.id} #{character.hash_id}"
+		end
+	end
+	
+	puts "Processed batch of #{per_batch} at ##{offset}"
+	offset += per_batch
+end
+
+puts "Finished!"

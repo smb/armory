@@ -1,0 +1,46 @@
+-@page_title = "#{@region.upcase}-#{@realm.camelize} rankings"
+
+- cache(@page_hash, :raw => true, :expires_in => 24.hours) do
+	.spacer
+	.w960
+		.shadow.simplebox
+			.darkbg
+				#{@region.upcase}-#{@realm.camelize} has
+				%span.horde= number_with_delimiter(@population.horde)
+				Horde and
+				%span.alliance= number_with_delimiter(@population.alliance)
+				Alliance (ratio
+				%span.alliance= smart_round(@population.alliance_ratio)
+				\:&nbsp;
+				%span.horde>= smart_round(@population.horde_ratio)
+				), average score is&nbsp;
+				%span{:class => "q#{ilvl_color(@population.average_ilvl)}"}>= smart_round(@population.average_ilvl)
+				\.
+	.spacer
+	.w960
+		.invisible.paginate-top
+			.info.paginate
+		.clearb
+		#sortlist.shadow.ranklist
+			%h1#rank.header.hrank
+				%span Rank
+			%h1#name.header.hname Character
+			%h1#primary_role.header.hprimary Primary
+			%h1#secondary_role.header.hsecondary Secondary
+			%h1#average.header.hilvl Score
+			%h1#equip.header.hequip Items
+			%h1#enchant.header.henchants Enchants
+			%h1#gem.header.hgems Gems
+			.clearb
+			.rowsep
+			#loading.loading.darkbg.fillrow Loading...
+			.loading.clearb
+		.invisible.paginate-bottom
+			.info.paginate
+		= javascript_include_tag("sorttable", "char_sort", :cache => "cache-sorttable-char", :lifetime => 1.month)
+		:javascript
+			var table_data = #{parse_characters(@characters).to_json}
+
+			setup_table()
+	.clearb
+	

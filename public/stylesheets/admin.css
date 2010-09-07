@@ -1,0 +1,37 @@
+.admin .rowsep, .node .rowsep {
+  padding: 4px 0px 4px 6px; }
+  .admin .rowsep label, .node .rowsep label {
+    vertical-align: middle; }
+  .admin .rowsep input, .node .rowsep input {
+    margin: 4px 20px 4px 2px; }
+  .admin .rowsep input[type="text"], .node .rowsep input[type="text"] {
+    width: 140px; }
+  .admin .rowsep input[type="checkbox"], .node .rowsep input[type="checkbox"] {
+    height: 2em;
+    vertical-align: middle; }
+  .admin .rowsep .link, .node .rowsep .link {
+    width: 25%;
+    float: left; }
+
+.status .rowdiv {
+  border-top: 2px solid #171717; }
+.status .remote, .status .trusted, .status .name, .status .locked, .status .locked_at {
+  border-left: 2px solid #171717; }
+.status .enabled, .status .remote, .status .trusted, .status .name, .status .locked, .status .locked_at {
+  float: left;
+  padding-left: 6px; }
+.status .row {
+  height: 27px;
+  line-height: 27px; }
+.status .enabled {
+  width: 50px; }
+.status .remote {
+  width: 75px; }
+.status .trusted {
+  width: 75px; }
+.status .name {
+  width: 162px; }
+.status .locked {
+  width: 300px; }
+.status .locked_at {
+  width: 250px; }

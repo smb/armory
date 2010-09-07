@@ -1,0 +1,41 @@
+-@page_title = "#{@region == "global" ? "Global" : @region.upcase} rankings"
+
+- cache("rank/realms/#{@region}", :raw => true, :expires_in => 24.hours) do
+	.spacer
+	.w960
+		.shadow.simplebox
+			.darkbg
+				%span{:class => "gold-text"} Region:
+				= link_to "Global", rank_players_path, {:class => @region == "global" && "white"}
+				- config_option("armories").each do |region|
+					- next if region == "CN"
+					&bull;
+					= link_to region, rank_realms_region_path(region.downcase), {:class => @region == region.downcase && "white"}
+	.spacer
+	.w960
+		.invisible.paginate-top
+			.info.paginate
+		.clearb
+		#sortlist.shadow.realmlist
+			%h1#rank.header.hrank Rank
+			%h1#name.header.hname Realm
+			%h1#totall.header.halliance Alliance
+			%h1#tothorde.header.hhorde Horde
+			%h1#ratio.header.hratio Ratio
+			%h1#ilvl.header.hilvl Score
+			%h1#change.header.hchange Change
+			.clearb
+			.rowsep
+			#loading.loading.darkbg.fillrow Loading...
+			.loading.clearb
+		.invisible.paginate-bottom
+			.info.paginate
+		= javascript_include_tag("sorttable", "realm_sort", :cache => "cache-sorttable-realm", :lifetime => 1.month)
+		:javascript
+			var table_data = #{@realms.to_json}
+			var show_region = #{@region == "global" ? true : false}
+			var display_type = "realm"
+			
+			setup_table()
+	.clearb
+	

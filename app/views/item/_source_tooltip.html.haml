@@ -1,0 +1,14 @@
+- @tooltip[:data].each do |data|
+	%div
+		- if data[:header]
+			#{data[:total]} #{data[:source_type].capitalize}#{"s" if data[:total] > 1}
+		- else
+			- if data[:source_type] != "vendor" and !data[:is_heroic].blank?
+				= image_tag("skull.png", :class => "skull").gsub(/"/, "'")
+				&nbsp;
+			%span.gold-text= data[:name].gsub(/"/, "&quot;")
+			- if !data[:players].nil?
+				&nbsp;(#{data[:players]})
+			- if !data[:area].blank?
+				&nbsp;in&nbsp;
+				=data[:area]

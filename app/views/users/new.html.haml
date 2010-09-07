@@ -1,0 +1,39 @@
+-#
+	.spacer
+	.w960.shadow
+		.openid
+			%h1.header OpenID
+			%p
+				If you prefer not to create an account, you can <a href="#{login_path}/new">login</a> using an OpenID URL
+			
+.spacer
+.w960.shadow
+	.newaccount
+		%h1.header Regular account creation
+		- form_for :user, :url => account_path do |f|
+			- if @user.errors.length > 0
+				%h1.lightheader.errormsg="#{@user.errors.size} errors when trying to register"
+				%ul
+					- @user.errors.each do |error|
+						%li= "#{f.label(error[0])} #{error[1]}"
+			.rowsep
+				%label Username
+				= f.text_field(:login)
+			.rowsep
+				%label Email
+				= f.text_field(:email)
+			.rowsep
+				%p.reminder Remember! The password should be different from your Battle.net one.
+			.rowsep
+				%label Password
+				= f.password_field(:password)
+			.rowsep
+				%label Confirm password
+				= f.password_field(:password_confirmation)
+			%h1.lightheader
+				Captcha
+			.rowsep
+				= recaptcha_tags(:display => {"theme" => "blackglass"})
+			.rowsep.submit
+				%label
+				= f.submit "Register"

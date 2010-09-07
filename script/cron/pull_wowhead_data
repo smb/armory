@@ -1,0 +1,93 @@
+#!/usr/bin/env ruby
+RAILS_ROOT = File.expand_path(File.join(File.dirname(__FILE__), "..", ".."))
+Dir.chdir(RAILS_ROOT)
+require "rubygems"
+require "open-uri"
+require "#{RAILS_ROOT}/config/environment"
+require "json"
+require "cgi"
+
+def parse_json(text)
+	parsed = {}
+	text.split(",").each do |line|
+		config = line.split(":", 2)
+		next unless config and config[1]
+		
+		match = config[1].match(/'(.+)'/)
+		if match
+			parsed[config[0]] = match[1].gsub("\\", "")
+		else
+			parsed[config[0]] = config[1]
+		end
+	end
+	
+	return parsed
+end
+
+# LOAD ALL ENCHANTS
+begin
+	data = open("http://www.wowhead.com/data=enchants", "User-Agent" => "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2) Gecko/20100115 Firefox/3.6")
+rescue Exception => e
+	Notifier.deliver_alert("Wowhead pull fail on enchants", "#{e.class}: #{e.message}\n\n\n#{e.backtrace.inspect.to_s}")
+	return
+end
+
+spell_map = {}
+# {name:'Light Armor Kit',quality:1,icon:'INV_Misc_ArmorKit_17',source:-2304,skill:-1,slots:525008,enchantment:'Reinforced (+8 Armor)',jsonequip:{"armor":8,"avgbuyout":289,"cooldown":1000,"reqlevel":1,"sellprice":15},temp:0,classes:0,gearscore:1}
+data.read.split("\n").each do |line|
+	match = line.match(/([0-9]+): \{(.+)\}/)
+	next unless match
+	
+	json = parse_json(match[2])
+	next if json["source"].to_i <= 0 || json["name"].match(/\+/)
+
+	spell_map[match[1].to_i] = {:id => json["source"].to_i, :icon => json["icon"].downcase, :name => json["name"]}
+end
+
+Enchant.all(:conditions => ["enchant_id IN (?)", spell_map.keys]).each do |enchant|
+	spell = spell_map[enchant.enchant_id]
+	
+	enchant.icon ||= spell[:icon]
+	enchant.name ||= spell[:name]
+	enchant.spell_id ||= spell[:id]
+	enchant.save
+	
+	#spell_map.delete(enchant.enchant_id)
+end
+
+#spell_map.each do |enchant_id, spell|
+#	next if Item.exists?(["LOWER(name) = ?", spell[:name].downcase])
+#	enchant = Enchant.new
+#	enchant.icon = spell[:icon]
+#	enchant.name = spell[:name]
+#	enchant.spell_id = spell[:id]
+#	enchant.enchant_id = enchant_id
+#	enchant.save
+#end
+
+# LOAD GLYPHS
+begin
+	data = open("http://www.wowhead.com/data=glyphs", "User-Agent" => "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2) Gecko/20100115 Firefox/3.6")
+rescue Exception => e
+	Notifier.deliver_alert("Wowhead pull fail on glyphs", "#{e.class}: #{e.message}\n\n\n#{e.backtrace.inspect.to_s}")
+	return
+end
+
+glyph_map = {}
+#40896: {name:'Glyph of Frenzied Regeneration',description:'While Frenzied Regeneration is active, healing effects on you are 20% more powerful.',icon:'Ability_BullRush',type:1,classs:11,skill:134},
+data.read.split("\n").each do |line|
+	match = line.match(/([0-9]+): \{(.+)\}/)
+	next unless match
+	
+	json = parse_json(match[2])
+	next if json["name"].match(/\+/)
+	
+	# Some glyphs have different versions of armory vs in-game, for example armory has "Glyph of Growling" vs "Glyph of Growl"
+	# some otehr glyphs have mixed casing like armory has "Glyph of Hunger for Blood" and in-game is "Glyph of Hunger For Blood"
+	glyph = GlyphData.find(:first, :conditions => ["LOWER(name) = ? OR name LIKE ?", json["name"].downcase, "#{json["name"]}%"])
+	if glyph
+		glyph.item_id = match[1].to_i
+		glyph.save
+	end
+end
+

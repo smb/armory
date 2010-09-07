@@ -1,0 +1,46 @@
+.spacer
+.w960.shadow
+	.api
+		%h1.header API documentation
+		.rowsep
+		%p
+			Any API URL can return data in both JSON and XML, all you have to do is suffix a request with ".json" or ".xml", for example:
+			= link_to "json example", api_base_path("us", "mal'ganis", "shadow", "json")	
+			and
+			= link_to "xml example", api_base_path("us", "mal'ganis", "shadow", "xml")	
+			the amount of data returned is the same, just the format changes. If you need JSONP, then add <i>jsonp=foo</i> to get the JSON data wrapped in the function foo.
+		%p 
+			Any API examples are given in JSON format for sanity. Region refers to the region prefix that you see in any character profile, supported prefixes are: us, eu, cn, tw, kr
+		%p
+			Examples of sites that use Elitist Armory data:
+			= link_to "WowQU", "http://wowqu.com/"
+			for showing character info in questions and
+			= link_to "Rawr", "http://www.elitistjerks.com/rawr.php"
+			for importing characters through Elitist Armory
+		%p
+			Most of the API calls are memcached to reduce load. If you do pull data from Elitist Armory, please link back.
+		%h1.lightheader Base character
+		%p
+			As you see in the example, this gives you the basic character data. These all correspond to the base data you see in character profiles. URLs should be formatted as <i>#{root_url}api/base/region/realm/character</i><br /><br />
+			<span class='gold-text'>Possible returns are:</span><br />
+			= link_to "This", api_base_path("us", "mal'ganis", "shadow", "json")
+			when character data is valid, <i>class_name</i> is the players class name lowercased. If <i>queued</i> is present, it indicates the character data is over 24 hours old and new data is being pulled.<br />
+			<i>{"error": "&lt;error code&gt;"}</i> - <i>noCharacter</i> (no data found, and cannot queue) or <i>badInput</i> (malformed input, didn't fill out every parameter)<br />
+			<i>{"queue": "&lt;queue position&gt;"}</i> - No data found yet, but it will be available soon, indicates where they are in the queue<br />
+		%h1.lightheader Population
+		%p
+			Population statistics broken down by region/realm/faction, these are updated once a day at 1:00 AM PST. URL format is <i>#{root_url}api/population/region</i><br /><br />
+			<span class='gold-text'>Possible returns:</span><br />
+			= link_to "This", api_population_path("us", "json")
+			when the region passed is valid, if Elitist Armory has no data on a realm, the realm will not be listed.<br />
+			<i>{"error": "badRegion"}</i> - Only error is badRegion, means you passed an invalid region to the URL
+		%h1.lightheader Character verification
+		%p
+			Allows you to verify whether a player has access to a character, this is the same API that Elitist Armory uses for verifying characters. Region can be figured out through the domain, "wowarmory" or "us.wowarmory" are the US, "eu.wowarmory" is the EU and so on.<br />
+			http://www.wowarmory.com/feeds/private/calendar.ics?cn=Shadow,Amarand&r=Mal'Ganis,Mal'Ganis&token=c3d4c9343a165ac1c8128fc5ccda5a06<br />
+			Turns into<br />
+			#{root_url}api/claim/c3d4c9343a165ac1c8128fc5ccda5a06/us/Mal'Ganis,Mal'Ganis/Shadow,Amarand<br /><br />
+			<span class='gold-text'>Possible returns:</span><br />
+			<i>{"error": "&lt;error code&gt;"}</i> - <i>maintenance</i> armory is undergoing maintenance, can't verify. <i>invalidAuth</i> means the wrong <i>token</i> was entered, or they passed a character in the URL that wasn't theirs.<br />
+			<i>{"status": "done", "total": #}</i> - Successfully verifies the player has access to all the characters passed.
+			

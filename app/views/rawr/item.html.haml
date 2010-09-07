@@ -1,0 +1,14 @@
+!!! XML
+%itemData
+	%item{:id => @item[:item_id], :faction => @item[:faction_id], :type => @item[:equip_type]}
+		- if !@item[:token_id].nil?
+			%tokens{:id => @item[:token_id], :cost => @item[:token_cost]}
+		- if !@item.item_sources.nil?
+			%sourceInfo
+				- @item.item_sources.all.each do |source|
+					%source{:name => source[:name], :area => source[:area], :title => source[:title], :source_type => source[:source_type], :players => source[:players], :id => source[:npc_id], :is_heroic => source[:is_heroic].nil? ? 0 : 1}
+						- if source[:source_type] == "craft"
+							%reagentInfo
+								- ItemReagents.find(:all, :conditions => {:item_id => @item[:item_id]}, :include => [:item]).each do |reagent|
+									%reagent{:quantity => reagent.quantity, :id => reagent.reagent_id, :name => reagent.item.name, :quality => reagent.item.quality}
+	= @raw_xml.item_xml if !@raw_xml.nil?

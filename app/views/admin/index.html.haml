@@ -1,0 +1,33 @@
+-@page_title = "Admin panel"
+.spacer
+.w960.shadow
+	.admin
+		%h1.header Admin
+		.rowsep
+			%span.link= link_to("Recache all loaded items", :controller => "admin", :action => "recache_items")
+			%span.label Recaches all loaded items in the database
+		.rowsep
+			%span.link= link_to("Load battlegroup data", :controller => "admin", :action => "battlegroups")
+			%span.label Scraps new battlegroup and server data from armories.
+		.rowsep
+			%span.link
+				= link_to("US", :controller => "admin", :action => "spider", :region => "us")
+				&bull;
+				= link_to("EU", :controller => "admin", :action => "spider", :region => "eu")
+				&bull;
+				= link_to("TW", :controller => "admin", :action => "spider", :region => "tw")
+				&bull;
+				= link_to("CN", :controller => "admin", :action => "spider", :region => "cn")
+				&bull;
+				= link_to("KR", :controller => "admin", :action => "spider", :region => "kr")
+			%span.label Spiders all of the regions players/guilds by arena
+		.rowsep
+			%span.link= link_to("Add new node", :controller => "admin", :action => "add_node")
+			%span.label Adds a new node
+		.rowsep
+			%span.link= link_to("Node status", :controller => "admin", :action => "node_status")
+			%span.label Lists the locked status of various nodes
+		.rowsep
+			%span.link= link_to("Manage nodes", :controller => "admin", :action => "nodes")
+			%span.label Manage nodes
+	

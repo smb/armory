@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby-with-env
+RAILS_ROOT = File.expand_path(File.join(File.dirname(__FILE__), ".."))
+require "rubygems"
+require "#{RAILS_ROOT}/config/environment"
+Dir.chdir RAILS_ROOT
+
+puts "Upgrading arena teams"
+
+total = ArenaTeam.count(:all)
+puts "Found #{total} teams"
+
+offset = 0
+updated = 0
+per_batch = 1000
+
+while offset <= total do
+	ActiveRecord::Base.transaction do 
+		ArenaTeam.find(:all, :limit => per_batch, :offset => offset).each do |team|
+			next if !team.team_hash.blank?
+			updated += 1
+
+			character = Character.find(:first, :conditions => {:id => team.character_id})
+			if character.nil?
+				team.destroy
+				puts "[#{total - updated}] No character found, deleted"
+				next
+			end
+
+			hash_id = ArenaTeam.get_hash(character.region, character.realm, team.bracket, team.name)
+			if ArenaTeam.exists?(:team_hash => hash_id)
+				team.destroy
+				puts "[#{total - updated}] Already have this team #{hash_id}"
+				next
+			end
+				
+			team.team_hash = hash_id	
+			team.save
+			puts "[#{total - updated}] Updated #{hash_id}"
+		end
+	end
+	
+	puts "Processed batch of #{per_batch} at ##{offset}"
+	offset += per_batch
+end
+
+puts "Finished!"

@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby-with-env
+RAILS_ROOT = File.expand_path(File.join(File.dirname(__FILE__), ".."))
+require "rubygems"
+require "#{RAILS_ROOT}/config/environment"
+Dir.chdir RAILS_ROOT
+
+puts "Updating all player flags"
+
+total = Character.count(:all)
+puts "Found #{total} characters"
+
+offset = 0
+updated = 0
+per_batch = 100
+
+while offset <= total do
+	ActiveRecord::Base.transaction do 
+		Character.find(:all, :limit => per_batch, :offset => offset, :include => [:talents, :achievements]).each do |character|
+			updated += 1
+			character.has_talents = nil
+			character.has_achievements = nil
+			character.has_talents = true if character.talents.size > 0
+			character.has_achievements = true if character.achievements.size > 0
+			character.save
+			puts "[#{total - updated}] ##{character.id} #{character.hash_id}"
+		end
+	end
+	
+	puts "Processed batch of #{per_batch} at ##{offset}"
+	offset += per_batch
+end
+
+puts "Finished!"

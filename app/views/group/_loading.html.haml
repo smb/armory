@@ -1,0 +1,16 @@
+- cache(Digest::SHA1.hexdigest("queue/group/#{@page_hash}"), :raw => true, :expires_in => 5.minutes) do
+	-@page_title = "Loading group summary"
+	:javascript
+		var reload_url = "#{group_sum_path(params["session"])}"
+		var api_path = "/queue/group/#{params["session"]}"
+		var no_data = #{@characters.length > 0 ? true : false}
+		var warn_errors = true
+	= javascript_include_tag("loading", :cache => "cache-loading", :lifetime => 1.month)
+
+	#queue
+		.spacer
+		.w960.shadow
+			.queue
+				#message.lightbg.text-center Loading group, only scanning players 80 or higher. This may take a minute.
+				#status.darkbg.text-center Calculating position in queue
+				

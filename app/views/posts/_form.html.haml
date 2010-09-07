@@ -1,0 +1,17 @@
+.spacer
+.w960.shadow
+	.post
+		%h1.header Post management
+		- if post.errors.length > 0
+			%h1.lightheader="#{post.errors.size} errors when trying to post"
+			%ul
+				- post.errors.each do |error|
+					%li= "#{form.label(error[0])} #{error[1]}"
+		%div.rowsep.title
+			%label Title
+			= form.text_field(:title)
+		%div.rowsep.body
+			%label Body
+			= form.text_area(:body)
+		%div.rowsep
+			%span= form.submit(post.new_record? && "Post" || "Edit")

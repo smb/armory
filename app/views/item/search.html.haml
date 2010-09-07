@@ -1,0 +1,31 @@
+-@page_title = params["name"].blank? ? "Searching for #{TALENTS[:archtypes_select].index(params["archetype"])} items" : "Searching for #{params["name"]}"
+- cache(@page_hash, :raw => true, :expires_in => 1.hour) do
+	- if @total_results > 200
+		.spacer
+		.w960
+			.results.shadow
+				.text-center
+					%span{:class => "gold-text"}= @total_results
+					items found, showing the first 200. Perhaps you should refine your query?
+	.spacer
+	.w960
+		.paginate-top
+			.info.paginate
+		.clearb
+		#sortlist.shadow.itemlist
+			%h1#name.header.hname Item name
+			%h1#ilvl.header.hilvl Level
+			%h1#spec.header.hspec Type
+			%h1#sources.header.hsources Source
+			.clearb
+			.rowsep
+		.paginate-bottom
+			.info.paginate
+		= javascript_include_tag("sorttable", "item_sort", :cache => "cache-sorttable-item", :lifetime => 1.month)
+		:javascript
+			var table_data = #{parse_items(@items).to_json}
+			var max_level = #{config_option("player")["maxlevel"]}
+			var heirloom_quality = #{ITEMS["QUALITY_HEIRLOOM"]}
+
+			setup_table()
+	.clearb

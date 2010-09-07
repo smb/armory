@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+RAILS_ROOT = File.expand_path(File.join(File.dirname(__FILE__), "..", ".."))
+Dir.chdir(RAILS_ROOT)
+require "rubygems"
+require "#{RAILS_ROOT}/config/environment"
+puts "Removing all errors older than #{config_option("player")["error"].to_i} hours ago"
+
+errors = Armory::Error.find(:all, :conditions => ["created_at < ?", config_option("player")["error"].hours.ago])
+errors.each do |error|
+        error.destroy
+end
+
+puts "Removed #{errors.size} errors"
+

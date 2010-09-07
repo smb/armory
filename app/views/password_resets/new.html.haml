@@ -1,0 +1,14 @@
+.spacer
+.w960.shadow
+	.login
+		%h1.header Forgot a password
+		.rowsep
+			The below form will email you a reset link for the account associated to it.
+			If you continue to have issues, you can #{link_to "contact us", "mailto:contact@elitistarmory.com"} with the account name.
+		- form_for :password_resets, :url => password_reset_path do |f|
+			.rowsep
+				%label Email
+				= f.text_field(:email)
+			.rowsep.submit
+				%label
+				= f.submit "Send"

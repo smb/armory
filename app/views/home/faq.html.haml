@@ -1,0 +1,44 @@
+.spacer
+.w960.shadow
+	.faq
+		%h1.header Frequently Asked Questions
+		%h1.lightheader
+			%a#whatis{:href => "#whatis", :class => "gold-text"} What is Elitist Armory
+		%p
+			Elitist Armory is a website version of <a href="http://www.wowinterface.com/downloads/info15573-ElitistGroup.html">Elitist Group</a>. Like Elitist Group, the goal is to move away from single scores that don't actually tell you anything useful. Instead information such as the type of item, if it's good for a spec or not are displayed.<br /><br />The philosophy is simple, show you the information you want in a concise form. Do you really need to know a Rogue has 50 Intellect? It won't stop them from standing in The Fire&trade; (unfortunately!).
+		%h1.lightheader
+			%a#claim{:href => "#claim", :class => "gold-text"} Character claiming (Alt/Main experience)
+		%p
+			Claiming a character allows you to have your alts list the experience of your mains on the same page. For example, #{link_to "Amarand of Mal'Ganis", char_profile_path("US", "Mal'Ganis", "Amarand")} is an alt of #{link_to "Shadow of Mal'Ganis", char_profile_path("US", "Mal'Ganis", "Shadow")}. Viewing Amarands profile will give you a tab to view Shadows experience.
+		%p
+			You will need to #{link_to "sign up", "#{account_path}/new"} to use this feature, once you have done that go to #{link_to "account info", account_path} (top right) and follow the instructions to claim characters.
+		%h1.lightheader
+			%a#check{:href => "#check", :class => "gold-text"} What is checked?
+		%p.nopad
+			#{link_to "Amarand of Mal'Ganis", char_profile_path("US", "Mal'Ganis", "Amarand")} demonstrates a few examples of Elitist Armory detected fails. A quick list is:
+		%ul
+			%li Items that are not appropriate to the players role
+			%li Green gems in epic gear
+			%li Metas that are not activated
+			%li Missing extra sockets from belt buckles or Blacksmith sockets
+			%li 370 skill Jewelcrafter's who do not have three Dragon Eye gems socketed
+			%li Death Knights using weapon enchants rather than Runeforging enchants
+		%h1.lightheader
+			%a#badflag{:href => "#badflag", :class => "gold-text"} Incorrect equipment, gem or enchant flag
+		%p
+			Send me an email <a href="mailto:contact@elitistarmory.com">contact@elitistarmory.com</a>. Make sure you indicate what you expect an item to be flagged as, and a profile that you saw it flagged incorrectly in. Keep in mind, unless an item is flagged due to a bug, you will need to provide a reason why you think the flag should be changed.<br /><br />A concise argument (and/or) linking to Elitist Jerks will make it easier for me to figure out if the item should be reflagged.<br />
+			While this may sound mean, I've had people tell me an item should be reflagged and be wrong, the more evidence you can provide to support your reasoning, the better chance I will reflag an item.
+		%h1.lightheader
+			%a#exp{:href => "#exp", :class => "gold-text"} Experience allocation
+		%p
+			You can find detailed information on how Elitist Armory allocates points for each boss
+			= link_to "here", experience_path	
+		%h1.lightheader
+			%a#avgilvl{:href => "#avgilvl", :class => "gold-text"} Average item level
+		%p
+			Average item levels are modified by quality to separate two players with the same average but different quality of gear. Primarily, it's to prevent a player in full 200 blues being listed the same as a player in full 200 epics. The quality modifiers are the same as in Elitist Group: -0% epic, -5% blue, -10% green, -40% white, -50% grey. Heirlooms are considered 187 item level blues at 80, or 2.22 item level/per player level.
+		%h1.lightheader
+			%a#modilvl{:href => "#modilvl", :class => "gold-text"} Modified item level ("Score")
+		%p
+			Modified item level is an average item level with modifiers for how many pieces of equipment, gems and enchants are accurate to the players role. For example, a player with an average item level of 250 with 100% equipment, 90% enchants and 70% gems passing has an average pass of 86%. Giving them a modified item level of 215, if they had 100%/100%/100% then it would be 250.<br />You will only see the score when viewing ranking, it's used as a way of ranking players who correctly equip, gem and enchant themselves.	
+		

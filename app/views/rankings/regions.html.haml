@@ -1,0 +1,30 @@
+-@page_title = "Region rankings"
+
+- cache("rank/regions", :raw => true, :expires_in => 24.hours) do
+	.spacer
+	.w960
+		.invisible.paginate-top
+			.info.paginate
+		.clearb
+		#sortlist.shadow.regionlist
+			%h1#rank.header.hrank Rank
+			%h1#name.header.hname Realm
+			%h1#totall.header.halliance Alliance
+			%h1#tothorde.header.hhorde Horde
+			%h1#ratio.header.hratio Ratio
+			%h1#ilvl.header.hilvl Score
+			%h1#change.header.hchange Change
+			.clearb
+			.rowsep
+			#loading.loading.darkbg.fillrow Loading...
+			.loading.clearb
+		.invisible.paginate-bottom
+			.info.paginate
+		= javascript_include_tag("sorttable", "realm_sort", :cache => "cache-sorttable-realm", :lifetime => 1.month)
+		:javascript
+			var table_data = #{@regions.to_json}
+			var show_region = false
+			var display_type = "region"
+			setup_table()
+	.clearb
+	

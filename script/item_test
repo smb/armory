@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+RAILS_ROOT = File.expand_path(File.join(File.dirname(__FILE__), ".."))
+require "rubygems"
+require "#{RAILS_ROOT}/config/environment"
+Dir.chdir RAILS_ROOT
+
+item_id = ARGV.first.to_i
+if item_id == 0
+	puts "Invalid item ID passed #{ARGV.first}"
+	return
+end
+
+puts "Testing item id #{item_id}"
+DataManager.queue_item(:item_id => item_id, :debug => true, :force => true)
+

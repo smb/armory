@@ -1,0 +1,41 @@
+-@page_title = "Group summary"
+= render :partial => "group/loading" if @queued
+	
+- cache(@page_hash, :raw => true, :expires_in => 1.hours) do
+	.spacer
+	.w960
+		.shadow.expselect
+			%label Show experience in
+			%span= select(:dungeon, :exp, "#{options_for_select([["Select a dungeon", ""]])}#{grouped_options_for_select(DUNGEONS[:exp_select])}", {}, :id => "dungeonsel")
+			%span= image_tag "progress.gif", :id => "progress", :class => "invisible"
+	.spacer
+	.w960
+		.paginate-top
+			.info.paginate
+		.clearb
+		#sortlist.shadow.grouplist
+			%h1#name.header.hname Character
+			%h1#expn.header.hexpn Exp
+			%h1#exph.header.hexph
+				= image_tag("skull.png", :class => "skull")
+				Exp
+			%h1#primary_role.header.hprimary Primary
+			%h1#secondary_role.header.hsecondary Secondary
+			%h1#average.header.hilvl Ilvl
+			%h1#equip.header.hequip Items
+			%h1#enchant.header.henchants Enchants
+			%h1#gem.header.hgems Gems
+			.clearb
+			.rowsep
+		.paginate-bottom
+			.info.paginate
+		= javascript_include_tag("sorttable", "group_experience", "group_sort", :cache => "cache-sorttable-group", :lifetime => 1.month)
+		:javascript
+			var table_data = #{parse_characters(@characters).to_json}
+			var session_id = "#{params["session"]}"
+			
+			setup_table()
+			setup_experience()
+	.clearb
+
+

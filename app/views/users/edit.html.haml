@@ -1,0 +1,20 @@
+= render :partial => "nav"
+.w960.shadow
+	.newaccount
+		%h1.header Account management
+		- form_for @current_user, :url => account_path, :method => :put do |f|
+			.rowsep
+				Leave password blank if you do want to change it.
+			= f.error_messages
+			.rowsep
+				= f.label :email
+				= f.text_field :email
+			.rowsep
+				= f.label :password
+				= f.password_field :password
+			.rowsep
+				= f.label :password_confirmation
+				= f.password_field :password_confirmation
+			.rowsep.submit
+				%label
+				= f.submit "Update"

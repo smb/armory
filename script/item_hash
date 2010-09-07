@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+RAILS_ROOT = File.expand_path(File.join(File.dirname(__FILE__), ".."))
+require "rubygems"
+require "#{RAILS_ROOT}/config/environment"
+Dir.chdir RAILS_ROOT
+
+Item.all.each do |item|
+	puts "Queued #{item.name}"
+	Armory::Job.enqueue(ItemIdentifyJob, :passed_args => {:item_id => item.item_id}, :priority => PRIORITIES[:item], :numerical_id => item.item_id, :local_only => true)
+end
+

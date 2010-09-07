@@ -1,0 +1,14 @@
+- cache(Digest::SHA1.hexdigest("queue/#{@character_hash}"), :raw => true, :expires_in => 5.minutes) do
+	-@page_title = "#{params["name"].capitalize} of #{params["realm"].camelize} #{params["region"].upcase}"
+	:javascript
+		var reload_url = "#{char_profile_path(params["region"], params["realm"], params["name"])}"
+		var api_path = "/queue/char/#{@character_hash}"
+		var no_data = #{@new_user ? true : false}
+	= javascript_include_tag("loading", :cache => "cache-loading", :lifetime => 1.month)
+
+	.spacer
+	.w960.shadow
+		.queue
+			- if @new_user
+				#message.lightbg.text-center Loading #{CGI::unescape(params["name"]).capitalize} of #{CGI::unescape(params["realm"]).camelize}, this may take a minute.
+			#status.text-center Calculating position in queue

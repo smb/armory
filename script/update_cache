@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby-with-env
+RAILS_ROOT = File.expand_path(File.join(File.dirname(__FILE__), ".."))
+require "rubygems"
+require "#{RAILS_ROOT}/config/environment"
+Dir.chdir RAILS_ROOT
+
+puts "Updating all talents to use a group id, rather than talent"
+
+total = Glyph.count(:all)
+puts "Total #{total} glyphs found"
+
+offset = 0
+per_batch = 10000
+
+while offset <= total do
+	Glyph.find(:all, :limit => per_batch, :offset => offset).each do |glyph|
+		talent = Talent.find(:first, :conditions => {:id => glyph.talent_id})
+		if talent
+			glyph.group_id = talent.group
+			glyph.save
+
+			puts "Updated ##{glyph.id} associated to group #{talent.group}"
+		end
+	end
+	
+	puts "Processed batch of #{per_batch} at ##{offset}"
+	offset += per_batch
+end
+
+puts "Finished!"

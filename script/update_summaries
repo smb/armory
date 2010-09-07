@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby-with-env
+RAILS_ROOT = File.expand_path(File.join(File.dirname(__FILE__), ".."))
+require "rubygems"
+require "#{RAILS_ROOT}/config/environment"
+Dir.chdir RAILS_ROOT
+
+puts "Updating all gear summaries"
+
+total = Character.count(:all, :conditions => ["active_group is not null and level is not null and level >= 80"])
+puts "Found #{total} characters"
+
+offset = 0
+per_batch = 5000
+
+while offset <= total do
+	ActiveRecord::Base.transaction do
+		Character.find(:all, :limit => per_batch, :offset => offset, :conditions => ["active_group is not null and level is not null and level >= 80"], :include => [:talents, {:equipment => [:item, :item_gem1, :item_gem2, :item_gem3, :item_enchant, :spell_enchant]}]).each do |character|
+			character.talents.each do |talent|
+				character.current_group = talent.group
+				character.current_role = talent.spec_role
+				
+				equip_total, pvp_total = 0, 0
+				
+				character.equipment.each do |equipment|
+					next if equipment.item.nil?
+					next if equipment.group_id != talent.group
+
+					equip_total += 1
+					pvp_total += 1 if equipment.pvp?
+				end
+
+				is_pvp = equip_total > 0 ? (pvp_total / equip_total.to_f) : 0
+				talent.is_pvp = is_pvp >= config_option("player")["pvpPercent"] ? true : false
+				talent.save
+
+				puts "Updating ##{character.id} #{character.name}: #{talent.is_pvp.to_s}"
+			end
+		end
+	end
+
+	puts "Processed batch of #{per_batch} at ##{offset}"
+	offset += per_batch
+end
+
+puts "Finished!"

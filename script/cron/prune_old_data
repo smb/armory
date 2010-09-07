@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+RAILS_ROOT = File.expand_path(File.join(File.dirname(__FILE__), "..", ".."))
+Dir.chdir(RAILS_ROOT)
+require "rubygems"
+require "#{RAILS_ROOT}/config/environment"
+
+PER_RUN = 20000
+puts "Removing characters last updated more than 1 months ago"
+
+id = 0
+has_data = true
+offset = 0
+while( has_data ) do
+	has_data = nil
+	
+	Character.all(:conditions => ["updated_at < ?", 1.months.ago], :limit => PER_RUN, :offset => offset).each do |character|
+		has_data = true
+		Achievement.delete_all(:character_id => character.id)
+		Stat.delete_all(:character_id => character.id)
+		Experience.delete_all(:character_id => character.id)
+		
+		puts "[#{id}] Deleted extra data #{character.name}"
+		
+		id += 1
+	end
+	
+	puts "Finished #{offset}"
+	offset += PER_RUN
+end

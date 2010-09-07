@@ -1,0 +1,47 @@
+-@page_title = "#{@guild.name} summary"
+= render :partial => "guild/loading" if @queued
+
+- cache("#{@guild.id}/#{@extra_id}/#{@min_rank}/#{@max_rank}", :raw => true, :expires_in => 1.hour) do
+	.spacer
+	- if @characters.nil? || @characters.length == 0
+		.w960
+			.shadow.items
+				%h1.header Guild summary
+				- if @queued
+					.row{:class => "darkbg"}
+						.fillrow No members of #{@guild.name} have been loaded yet, please wait.
+				- else
+					.row{:class => "lightbg"}
+						.fillrow No members of #{@guild.name} between #{rank_name(@min_rank)} and #{rank_name(@max_rank)} were found.
+					.clearb
+					.rowdiv
+					.row{:class => "darkbg"}
+						.fillrow You can try refreshing the guild to force a reload of the member list.
+
+	- else
+		.w960
+			.paginate-top
+				.info.paginate
+			.clearb
+			#sortlist.shadow.guildlist
+				%h1#name.header.hname Character
+				%h1#rank.header.hrank Rank
+				%h1#primary_role.header.hprimary Primary
+				%h1#secondary_role.header.hsecondary Secondary
+				%h1#average.header.hilvl Ilvl
+				%h1#equip.header.hequip Items
+				%h1#enchant.header.henchants Enchants
+				%h1#gem.header.hgems Gems
+				.clearb
+				.rowsep
+			.paginate-bottom
+				.info.paginate
+			= javascript_include_tag("sorttable", "char_sort", :cache => "cache-sorttable-char", :lifetime => 1.month)
+			:javascript
+				var table_data = #{parse_characters(@characters).to_json}
+				var show_gm = true
+
+				setup_table()
+	.clearb
+
+

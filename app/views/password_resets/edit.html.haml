@@ -1,0 +1,16 @@
+.spacer
+.w960.shadow
+	.login
+		%h1.header Reset password for #{@user.login}
+		- form_for @user, :url => password_reset_path, :method => :put do |f|
+			= hidden_field_tag(:token, params[:token])
+			= f.error_messages
+			.rowsep
+				= f.label :password
+				= f.password_field :password
+			.rowsep
+				= f.label :password_confirmation
+				= f.password_field :password_confirmation
+			.rowsep.submit
+				%label
+				= f.submit "Reset"

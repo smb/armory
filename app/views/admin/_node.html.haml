@@ -1,0 +1,30 @@
+- form_for node, :url => admin_node_update_path do |f|
+	=f.hidden_field(:id)
+	.rowsep.darkbg
+		%label Name:
+		= f.text_field(:name, :value => node.name)
+		%label Enabled?
+		= f.check_box(:enabled, :value => node.enabled)
+		%label Remote?
+		= f.check_box(:remote, :value => node.remote)
+		%label Trusted?
+		= f.check_box(:trusted, :value => node.trusted)
+	.rowsep
+		%label URL:
+		= f.text_field(:url, :value => node.url)
+		%label Email:
+		= f.text_field(:email, :value => node.email)
+		%label Secret:
+		= f.text_field(:secret_key, :value => node.secret_key)
+		%label Version:
+		= f.text_field(:version, :value => node.version, :class => "tinyinput")
+		- if !node.remote.blank?
+			%label Throttle:
+			= f.text_field(:throttle, :value => node.throttle, :class => "tinyinput")
+	.rowsep
+		= f.submit("Update")
+		= f.submit("Delete") if !node.new_record?
+	- if !node.new_record?
+		.rowsep
+			&nbsp;
+

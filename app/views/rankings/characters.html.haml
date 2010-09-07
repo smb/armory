@@ -1,0 +1,43 @@
+-@page_title = "#{@region == "global" ? "Global" : @region.upcase} rankings"
+
+- cache("rank/char/#{@region}", :raw => true, :expires_in => 24.hours) do
+	.spacer
+	.w960
+		.shadow.simplebox
+			.darkbg
+				%span{:class => "gold-text"} Region:
+				= link_to "Global", rank_players_path, {:class => @region == "global" && "white"}
+				- config_option("armories").each do |region|
+					- next if region == "CN"
+					&bull;
+					= link_to region, rank_players_region_path(region.downcase), {:class => @region == region.downcase && "white"}
+	.spacer
+	.w960
+		.invisible.paginate-top
+			.info.paginate
+		.clearb
+		#sortlist.shadow.ranklist
+			%h1#rank.header.hrank
+				%span Rank
+			%h1#name.header.hname Character
+			%h1#primary_role.header.hprimary Primary
+			%h1#secondary_role.header.hsecondary Secondary
+			%h1#average.header.hilvl Score
+			%h1#equip.header.hequip Items
+			%h1#enchant.header.henchants Enchants
+			%h1#gem.header.hgems Gems
+			.clearb
+			.rowsep
+			#loading.loading.darkbg.fillrow Loading...
+			.loading.clearb
+		.invisible.paginate-bottom
+			.info.paginate
+		= javascript_include_tag("sorttable", "char_sort", :cache => "cache-sorttable-char", :lifetime => 1.month)
+		:javascript
+			var table_data = #{parse_characters(@characters).to_json}
+			var name_tooltips = true
+			var show_region = #{@region == "global" ? true : false}
+
+			setup_table()
+	.clearb
+	

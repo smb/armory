@@ -1,0 +1,257 @@
+-@page_title = "#{@character[:name]} of #{@character[:realm]} #{@character[:region].upcase}"
+=render :partial => "character/loading" if @queued
+- cache("#{@active_group}/#{@character.cache_key}", :raw => true, :expires_in => 1.hour) do
+	.spacer
+	.w960
+		.cached
+			.time
+				Cached:
+				%span#relative= @active_talents and @active_talents.updated_at.to_s or @character.updated_at.to_s
+		.clearb
+		:javascript
+			$("div.cached").addClass("relative")
+			$("#relative").html(relative_time(#{@character.updated_at.to_i}))
+		.character.shadow
+			.base
+				.portraitimg{:style => "background-image: url('#{image_path(get_portrait(@character))}')"}
+					.level= @character.level
+				.identify
+					.main.darkbg
+						= char_name(@character, @title)
+					- if !@character.guild.blank?
+						.guild.lightbg{:class => small_text(@character.guild)}
+							&lt;#{link_to @character.guild, view_guild_path(@character.region, @character.realm, @character.guild)}&gt;
+					- else
+						.guild.lightbg
+				
+				- reset_cycle
+				.talents
+					- @talents.delete(2)
+					- @talents.each do |talent|
+						- is_active = nil
+						- if current_cycle == "darkbg"
+							.rowsep
+						.talent{:class => cycle("darkbg", "lightbg")}
+							.icon
+								- if @have_data.blank? || @active_group == talent.group
+									- if !talent.active.blank? || !@have_data.blank? && @character.active_group != talent.group
+										= image_tag("icons/#{talent.icon}.png", :onmouseout => tooltip_hide, :onmouseover => tooltip_text("Currently viewing this spec."))
+										- is_active = true
+									- else
+										= image_tag("icons/#{talent.icon}.png", :onmouseout => tooltip_hide, :onmouseover => tooltip_text("No data is available for this spec."))
+								- else
+									= link_to image_tag("misc/interact.png", :class => "interact", :onmouseout => tooltip_hide, :onmouseover => tooltip_text("View profile for #{talent.sum_tree1}/#{talent.sum_tree2}/#{talent.sum_tree3}")), char_profile_group_path(@character.region, @character.realm, @character.name, talent.group)
+							
+							.name= link_to "#{talent.sum_tree1}/#{talent.sum_tree2}/#{talent.sum_tree3}", ResourcedbHelper.talent_link(@character.class_token, talent.compressed_data), {:class => talent_color(talent, is_active)}
+							.sep
+							- if talent.unspent == 0
+								.type{:class => talent_color(talent, is_active)}= talent.role_name
+							- else
+								.type{:class => talent_color(talent, is_active), :onmouseout => tooltip_hide, :onmouseover => tooltip_text(pluralize(talent.unspent, "unspent talent points"))}= pluralize(talent.unspent, "unspent", "unspent")
+					- (2 - @talents.size).times do
+						- if current_cycle == "darkbg"
+							.rowsep
+						.talent{:class => cycle("darkbg", "lightbg")}
+							.icon= image_tag("icons/inv_misc_questionmark.png")
+							.name None
+							.sep
+							.type
+							
+				- reset_cycle
+				.professions
+					- @professions.each do |profession|
+						- if current_cycle == "darkbg"
+							.rowsep
+						.profession{:class => cycle("darkbg", "lightbg")}
+							.icon= image_tag(profession[:icon])
+							.name= link_to profession[:name], ResourcedbHelper.link(:profession_id => profession[:profession_id])
+							.sep
+							.amount= profession[:current]
+					- (2 - @professions.length).times do
+						.profession{:class => cycle("darkbg", "lightbg")}
+							.icon= image_tag("icons/inv_misc_questionmark.png")
+							.name None
+							.sep
+							.amount
+						
+				.summary
+					.average{:onmouseout => tooltip_hide, :onmouseover => tooltip_text("Average item level of #{@character.name}'s equipment.")}
+						.label.darkbg Average ilvl
+						.amount.lightbg{:class => "q#{ilvl_color(@equip_summary[:average_ilvl])}"}= @equip_summary[:average_ilvl]
+					.items{:onmouseout => tooltip_hide, :onmouseover => tooltip_text("Percentage of #{@character.name}'s equipment that are good for their spec.")}
+						.label.darkbg Items passed
+						.amount.lightbg{:class => percent_color(@equip_summary[:equip_percent])}= "#{(@equip_summary[:equip_percent] * 100).to_i}%"
+					.gems{:onmouseout => tooltip_hide, :onmouseover => tooltip_text("Percentage of #{@character.name}'s gems that are good for their spec.")}
+						.label.darkbg Gems passed
+						.amount.lightbg{:class => percent_color(@equip_summary[:gem_percent])}= "#{(@equip_summary[:gem_percent] * 100).to_i}%"
+					.enchants{:onmouseout => tooltip_hide, :onmouseover => tooltip_text("Percentage of #{@character.name}'s enchants that are good for their spec.")}
+						.label.darkbg Enchants passed
+						.amount.lightbg{:class => percent_color(@equip_summary[:enchant_percent])}= "#{(@equip_summary[:enchant_percent] * 100).to_i}%"
+
+	.spacer
+	.w960
+		.spec
+			.stats.shadow
+				%h1.spaceheader Stats
+				- @divider = nil
+				- 3.times do |i|
+					- if i > 0
+						.rowsep
+					.row.darkbg
+						= stat_tag(@stats[(i * 3)])
+						.linesep
+						= stat_tag(@stats[(i * 3) + 1])
+						.linesep
+						= stat_tag(@stats[(i * 3) + 2])
+			.glyphs.shadow
+				%h1.spaceheader.major Major glyphs
+				%h1.spaceheader.minor Minor glyphs	
+				- for i in 0..2
+					.row{:class => cycle("darkbg", "rowsep lightbg", "rowsep darkbg")}
+						- if !@glyphs_major[i].nil?
+							.left
+								= image_tag("icons/inv_glyph_major#{@character.class_token}.png", :size => "22x22")
+								= link_to @glyphs_major[i][:name].gsub("Glyph of ", "").strip, ResourcedbHelper.link(@glyphs_major[i])
+						- else
+							.left
+								= image_tag("icons/inv_misc_questionmark.png", :size => "22x22")
+								%span.none None
+						.linesep
+						- if !@glyphs_minor[i].nil?
+							.right
+								= image_tag("icons/inv_glyph_minor#{@character.class_token}.png", :size => "22x22")
+								= link_to @glyphs_minor[i][:name].gsub("Glyph of ", "").strip, ResourcedbHelper.link(@glyphs_minor[i])
+						- else
+							.right
+								= image_tag("icons/inv_misc_questionmark.png", :size => "22x22")
+								%span.none None
+					
+	.spacer
+	.w960
+		- if @mains.length > 0
+			= javascript_include_tag("experience", :cache => "cache-experience", :lifetime => 48.hours)
+			.mainexp
+				= main_tab(@character, true)
+				- @mains.each do |main|
+					= main_tab(main.character, nil)
+		.experience
+			.raid.shadow
+				%h1.header.headerlabel= link_to "Raid experience", experience_path, :class => "gold-text", :onmouseout => tooltip_hide, :onmouseover => tooltip_text("You have to clear a raid one to two times for older content, or two to three times for new content to be experienced.")
+				%h1.header.headerexp 10-man
+				%h1.header.headerexp
+					= image_tag("skull.png", :class => "skull")
+					10-man
+				%h1.header.headerexp 25-man
+				%h1.header.headerexp
+					= image_tag("skull.png", :class => "skull")
+					25-man
+				- showed = nil
+				- @raid_data.each do |dungeon|
+					- if !showed.nil?
+						.seprow
+					- showed = true
+					.row{:class => cycle("darkbg", "lightbg")}
+						.name
+							= image_tag(dungeon[:icon], :size => "22x22")
+							%span.dungeonname= dungeon[:name]
+						.tenman{:class => "#{current_cycle}"}
+							- if !dungeon[:normal][10].blank?
+								%span.expdata{:id => dungeon[:normal][10][:id], :onmouseout => tooltip_hide, :onmouseover => tooltip_ajax("#{achievement_tooltip_path(dungeon[:normal][10][:id], @character.hash_id)}"), :class => percent_color(dungeon[:normal][10][:decimal])}= dungeon[:normal][10][:percent]
+							- else
+								\---
+						.htenman{:class => "#{current_cycle}"}
+							- if !dungeon[:heroic][10].blank?
+								%span.expdata{:id => dungeon[:heroic][10][:id], :onmouseout => tooltip_hide, :onmouseover => tooltip_ajax("#{achievement_tooltip_path(dungeon[:heroic][10][:id], @character.hash_id)}"), :class => percent_color(dungeon[:heroic][10][:decimal])}= dungeon[:heroic][10][:percent]
+							- else
+								\---
+						.twofiveman{:class => "#{current_cycle}"}
+							- if !dungeon[:normal][25].blank?
+								%span.expdata{:id => dungeon[:normal][25][:id], :onmouseout => tooltip_hide, :onmouseover => tooltip_ajax("#{achievement_tooltip_path(dungeon[:normal][25][:id], @character.hash_id)}"), :class => percent_color(dungeon[:normal][25][:decimal])}= dungeon[:normal][25][:percent]
+							- else
+								\---
+						.htwofiveman{:class => "#{current_cycle}"}
+							- if !dungeon[:heroic][25].blank?
+								%span.expdata{:id => dungeon[:heroic][25][:id], :onmouseout => tooltip_hide, :onmouseover => tooltip_ajax("#{achievement_tooltip_path(dungeon[:heroic][25][:id], @character.hash_id)}"), :class => percent_color(dungeon[:heroic][25][:decimal])}= dungeon[:heroic][25][:percent]
+							- else
+								\---
+			.party.shadow
+				%h1.header.headerlabel= link_to "Party experience", experience_path, :class => "gold-text", :onmouseout => tooltip_hide, :onmouseover => tooltip_text("Party dungeons have to be cleared a three to five times to be experienced for that tier.")
+				%h1.header.headerexp
+					= image_tag("skull.png", :class => "skull")
+					5-man
+				- showed = nil
+				- @party_data.each do |dungeon|
+					- if !showed.nil?
+						.seprow
+					- showed = true
+					.row{:class => cycle("darkbg", "lightbg")}
+						.name
+							= image_tag(dungeon[:icon], :size => "22x22")
+							%span.dungeonname= dungeon[:name]
+						.hfiveman{:class => "#{current_cycle}"}
+							- if !dungeon[:heroic][5].blank?
+								%span.expdata{:id => dungeon[:heroic][5][:id], :onmouseout => tooltip_hide, :onmouseover => tooltip_ajax("#{achievement_tooltip_path(dungeon[:heroic][5][:id], @character.hash_id)}"), :class => percent_color(dungeon[:heroic][5][:decimal])}= dungeon[:heroic][5][:percent]
+							- else
+								\---
+				- (@raid_data.length - @party_data.length).times do
+					.seprow
+					.row.filler{:class => cycle("darkbg", "lightbg")}
+		.clearb
+	- if @equip_warnings.length > 0
+		.spacer
+		.w960
+			.equipment.shadow.equipwarn
+				- @equip_warnings.each do |type, warning|
+					%div= parse_warning(type, warning)
+	.spacer
+	.w960
+		.equipment.shadow
+			%h1.header.hslot Slot
+			%h1.header.hupgrade &nbsp;
+			%h1.header.hname Name
+			%h1.header.hilvl Lvl
+			%h1.header.htype Type
+			%h1.header.hgems Gems
+			%h1.header.henchant Enchant
+			
+			- showed = nil
+			- @equip_list.each do |row|
+				- if showed
+					.seprow
+				- showed = true
+				.clearb
+				.row{:class => cycle("darkbg", "lightbg")}
+					- if row[:type] == "missing"
+						.slot= Equipment.slot_name(row[:slot_id])
+						.upgrade
+						.name
+							= image_tag("icons/inv_misc_questionmark.png", :size => "24x24")
+							Empty slot
+						.ilvl
+						.type
+						.gems
+						.enchant
+					- elsif row[:type] == "noData"
+						.slot= Equipment.slot_name(row[:slot_id])
+						.upgrade
+						.name
+							= image_tag("icons/inv_misc_questionmark.png", :size => "24x24")
+							Failed to load item id ##{row[:item_id]}
+						.ilvl
+						.type
+						.gems
+						.enchant
+					- else
+						.slot= row[:equip].slot_name
+						.upgrade= link_to image_tag("misc/left_arrow.png", :size => "16x16"), item_filter_path(row[:equip][:item_id], @character.role_archetype), {:onmouseout => tooltip_hide, :onmouseover => tooltip_text("View item upgrades"), :class => "tt-override"}
+						.name
+							= image_tag("icons/#{row[:equip].item.icon}.png", :size => "24x24")
+							= link_to "[#{row[:equip].item.name}]", ResourcedbHelper.item_link(@character, row[:equip], row[:set]), { :class => "q#{row[:equip].item.quality}"}
+						.ilvl{:class => "q#{row[:equip].item.quality}"}= row[:equip].item.real_level(@character.level)
+						.type= equipment(@character, row[:equip])
+						.gems
+							%div= gem_list(@character, row[:equip])
+						.enchant
+							%div= enchant(@character, row[:equip])
+					
+					

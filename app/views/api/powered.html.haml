@@ -1,0 +1,33 @@
+- parse_powered do
+	.eatooltip
+		.title
+			%span{:class => @data["class_token"]}>= @data["name"].capitalize
+			&nbsp;of #{@data["region"].upcase}-#{@data["realm"].camelize}
+			- if !@data["guild"].blank?
+				%div{:class => "guild"} &lt;#{@data["guild"]}&gt;
+		.content
+			- if @data["error"]
+				Failed to load, #{error_text(@data["error"])}
+			- elsif @data["queue"]
+				Position in queue:
+				&nbsp;
+				%span{:color => "gold"}= @data["queue"]
+			- else
+				.talents= talent_info(@data)
+				.base
+					Level #{@data["level"]},
+					&nbsp;
+					%span{:class => @data["faction_token"]}= @data["faction"]
+				.ilvl
+					Average:&nbsp;
+					%span{:class => "q#{ilvl_color(@data["average_ilvl"])}"}= @data["average_ilvl"]
+				.itemsum
+					Equip:&nbsp;
+					%span{:class => percent_color(@data["equip_percent"])} #{(@data["equip_percent"] * 100).to_i}%
+				.enchantsum
+					Enchants:&nbsp;
+					%span{:class => percent_color(@data["enchant_percent"])} #{(@data["enchant_percent"] * 100).to_i}%
+				.gemsum
+					Gems:&nbsp;
+					%span{:class => percent_color(@data["gem_percent"])} #{(@data["gem_percent"] * 100).to_i}%
+			.powered Powered by Elitist Armory

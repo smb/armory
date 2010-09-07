@@ -1,0 +1,19 @@
+!!! XML
+%characterInfo
+	%character{:region => @char_data[:region], :realm => @char_data[:realm], :name => @char_data[:name], :race_id => @char_data[:race_id], :class_id => @char_data[:class_id]}
+		%equipInfo
+			-	@char_data[:equipment].each do |equip|
+				%equipment{equip}
+		%talentInfo
+			-	@char_data[:talents].each do |talent|
+				%talent{:active => talent[:active], :value => talent[:talents]}
+					%glyphInfo
+						-	talent[:glyphs].each do |glyph|
+							%glyph{glyph}
+		- if !@char_data[:pet_talents].nil?
+			%petTalentInfo
+				-	@char_data[:pet_talents].each do |talent|
+					%talent{talent}
+		%professionInfo
+			-	@char_data[:professions].each do |profession|
+				%profession{profession}

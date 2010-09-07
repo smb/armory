@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+RAILS_ROOT = File.expand_path(File.join(File.dirname(__FILE__), ".."))
+require "rubygems"
+require "#{RAILS_ROOT}/config/environment"
+Dir.chdir RAILS_ROOT
+
+Item.find(:all, :conditions => {:equip_type => "meta"}).each do |item|
+	puts "Queued #{item.name}"
+	DataManager.queue_item(:item_id => item.item_id, :force => true)
+end
+

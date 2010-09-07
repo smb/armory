@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+RAILS_ROOT = File.expand_path(File.join(File.dirname(__FILE__), "..", ".."))
+Dir.chdir(RAILS_ROOT)
+require "rubygems"
+require "#{RAILS_ROOT}/config/environment"
+puts "Creating population statistics"
+
+stats = {}
+Character.find(:all, :select => "COUNT(*) as total, region, realm, faction_id", :group => "region, realm, faction_id").each do |population|
+	faction = config_option("reverseFaction")["horde"] == population.faction_id ? "horde" : "alliance"	
+
+	stats[population.region] ||= {}
+	stats[population.region][population.realm] ||= {}
+	stats[population.region][population.realm][faction] = population.total	
+end
+
+stats.each do |region, data|
+	ActiveRecord::Base.transaction do
+		pop_cache = {}
+		PopulationStats.find(:all, :conditions => {:region => region}).each do |population|
+			pop_cache[population.realm] = population
+		end
+		
+		data.each do |realm, players|
+			population = pop_cache[realm] || PopulationStats.new
+			population.region = region
+			population.realm = realm
+			population.horde = players["horde"] || 0
+			population.alliance = players["alliance"] || 0
+			population.touch
+			
+			puts "Updated #{region.upcase}-#{realm}, #{players["horde"] or 0} horde, #{players["alliance"] or 0} alliance"
+		end
+	end
+	
+	Rails.cache.delete("api/stats/#{region.downcase}")
+end
+
+puts "Finished"

@@ -1,0 +1,4 @@
+- form_for @post, :url => post_create_path do |f|
+	= f.hidden_field(:id, :value => :post.id)
+	= render :partial => "form", :locals => {:post => @post}, :object => f
+

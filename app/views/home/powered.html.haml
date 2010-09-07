@@ -1,0 +1,37 @@
+= javascript_include_tag("powered.js")
+= stylesheet_link_tag("powered.css")
+:javascript
+	INCLUDE_ARMORY = true
+	window.onload = function() {
+		eatt.init()
+	}
+
+.spacer
+.w960.shadow
+	.powered
+		%h1.header Powered by
+		.rowsep
+		%p
+			Want to get tooltip information for armory profiles using Elitist Armory data? You can use the powered by plugin which will pull information directly from Elitist Armory, it will also add tooltips for links to Blizzards armory. The example below has the include armory option enabled you see below, by default this is disabled.<br /><br />
+			= link_to "Shadow of US-Mal'Ganis", "http://www.elitistarmory.com/us/mal'ganis/shadow"
+			(Elitist Armory)<br />
+			= link_to "Shadow of US-Mal'Ganis", "http://wowarmory.com/character-sheet.xml?r=Mal'Ganis&n=Shadow"
+			(WoW Armory)
+			<br /><br />Thanks to <a href="http://db.mmo-champion.com">MMO-Champion DB</a> for the tooltip code.
+		%h1.lightheader How do I add this?
+		%p
+			All you have to do is include the below Javascript at the top of your site and links to Elitist Armory will have tooltips.
+		.code
+			= text_area_tag("javascript", '<script src="http://elitistarmory.com/javascripts/external_powered.js" type="text/javascript"></script>')
+		%h1.lightheader Extra options
+		%p
+			If you want tooltips to show for wowarmory.com links, this Javascript below the external_powered.js code
+		.code
+			= text_area_tag("jsinc", '<script type="text/javascript">EATooltipConfig(true, null)</script>')
+		%p
+			You can also have all wowarmory.com links rewritten to elitistarmory.com by including the below
+		.code
+			= text_area_tag("jswrite", '<script type="text/javascript">EATooltipConfig(null, true)</script>')			
+		%p To enable both options, use the below
+		.code
+			= text_area_tag("jsboth", '<script type="text/javascript">EATooltipConfig(true, true)</script>')

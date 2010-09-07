@@ -1,0 +1,43 @@
+#!/usr/bin/env ruby
+RAILS_ROOT = File.expand_path(File.join(File.dirname(__FILE__), "..", ".."))
+Dir.chdir(RAILS_ROOT)
+require "rubygems"
+require "#{RAILS_ROOT}/config/environment"
+puts "Creating rankings for realms"
+
+config_option("armories").each do |region|
+	puts "Updating rankings for #{region}"
+	region = region.downcase
+	
+	ActiveRecord::Base.transaction do
+		pop_cache = {}
+		PopulationStats.find(:all, :conditions => {:region => region}).each do |population|
+			pop_cache[population.realm] = population
+		end
+		
+		Character.find(:all, :select => "characters.realm, AVG(talents.average_ilvl * ((talents.equip_percent + talents.gem_percent + talents.enchant_percent) / 3)) as modified_ilvl", :conditions => ["characters.region = ? and characters.has_achievements = ? and characters.has_talents = ? and characters.level >= ? and talents.average_ilvl > 0 AND talents.is_pvp = ?", region.downcase, true, true, config_option("player")["maxlevel"], false], :joins => :talents, :group => "characters.realm", :order => "modified_ilvl DESC").each do |realm|
+			population = pop_cache[realm.realm] || PopulationStats.new
+			population.region = region
+			population.realm = realm.realm
+			population.horde ||= 0
+			population.alliance ||= 0
+			population.ilvl_change = !population.average_ilvl.nil? && population.average_ilvl > 0 ? realm.modified_ilvl.to_f - population.average_ilvl : 0
+			population.average_ilvl = realm.modified_ilvl
+			population.touch
+			
+			puts "#{region} #{population.realm}, #{population.average_ilvl}, #{population.ilvl_change}"
+			Rails.cache.delete(Digest::SHA1.hexdigest("rank/realm/#{region}/#{realm.realm}"))
+			Rails.cache.delete(Digest::SHA1.hexdigest("rank/realm/timer/#{region}/#{realm.realm}"))
+		end
+	end
+
+	Rails.cache.delete("rank/realms/timer/#{region}")
+	Rails.cache.delete("rank/realms/#{region}")
+end
+
+Rails.cache.delete("rank/realms/timer/global")
+Rails.cache.delete("rank/realms/global")
+Rails.cache.delete("rank/timer/global")
+Rails.cache.delete("rank/regions")
+
+puts "Finished"
