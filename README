@@ -1,13 +1,45 @@
-This was my first Ruby on Rails project, so the code is a bit hackish. Since I'm not running the site anymore I don't see any reason to keep the code closed.
+Since I'm not running elitistarmory.com anymore, I see no reason to keep the code closed. This was my first Ruby (and Rails at that) and web project in about 5 years, so the code is quite hackish and how data is stored in the database needs work.
 
-Released under the BSD license:
+Released under the BSD license, see LICENSE for details.
 
-Copyright (c) 2010, Zachary Anker
-All rights reserved.
+If you need to scale the site, you will primarily have to rewrite the lib/jobs/achievement_job.rb and lib/jobs/character_job.rb, stats and achievements should be stored by integer keys rather than strings, which will solve about 99% of the issues you will run into with disk space consumption. If you want to just run it for your guild, then this isn't much of an issue since things like disk space issues only start to become a problem around 1,000,000 to 2,000,000+ million characters.
 
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+To set a user to admin, you need to do it through the DB by setting the "admin" flag to true in the users table. Admins can manage most things like queuing or requeuing data, as well as adding new nodes without having to do it through the database.
 
-Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-Neither the name of Elitist Armory nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+---
+Setup
+---
+Nothing too special to start provided you have all of the base gem requirements filled. Just a RAILS_ENV=production rake db:migrate and RAILS_ENV=production script/ruby-worker-env script/armory_worker start -n 1 will get you going. Provided you setup the nodes first for your server.
+
+---
+Alerts
+---
+Everything is setup to send an email to a specified address if something errors. You can modify it in app/models/notifier.rb
+
+---
+Requirements
+---
+You need at least memcached running if you plan on using the remote node function, in general I would suggest using memcache since it speeds up load. Ruby v1.8.7 and Rails v2.3.8. It's highly suggested you run Ruby Enterprise Edition instead of Ruby however.
+
+----
+Crons
+----
+At minimum, you will need a cron (hourly) to run script/cron/prune_errors. Ideally you would also have a daily cron setup for the update_char_ranks, update_population, update_realm_ranks to get the full use of the stat features.
+
+----
+Workers
+----
+You will need to setup a node entry for each server you run a worker on, for example if your server is named "foobar" you would need an entry in nodes that looked like the below. Actual column values vary depending on database.
+
+INSERT INTO nodes(enabled,trusted,remote,name,url,version,throttle) VALUES(true,true,false,'FooBar', 'foobar', 2, 0);
+
+This will tell the worker to check if any other workers are on the "foobar" server are currently working as speedy workers. Speedy workers just uses a single IP to request and are faster because they are unthrottled and pull data as quick as Blizzard allows. If you want to setup remote node, you will need people to use the ea_mirror.php script found in public/static/ea_mirror.zip and upload it to a site running PHP with curl. To add them as a remote node if they ran the site www.fooapple.com and put the ea script in the root (fooapple.com/ea_mirror.php)
+
+INSERT INTO nodes(enabled,trusted,remote,name,url,version,throttle) VALUES(true,false,true,'Foo Apple','www.fooapple.com',2,10);
+
+This will add fooapple.com to the mirror list and it will only request data through it every 10 seconds.
+
+The trusted flag determines whether a remote node is trusted enough to handle relatively static data. The main example of this is items, items can only be handled by a trusted node to reduce the chance of someone messing the sites data up. Character data isn't an issue because you can always refresh it and the remote node will not likely touch it again.
+
+To run a worker, all you need to do is use "RAILS_ENV=production script/ruby-worker-env script/armory_worker start -n # where # is the number of works to start. You can use -i # to start a specific worker, useful if you want to hookup a monit or God instance.
+

@@ -80,7 +80,7 @@ var eatt = {
 	},
 	
 	getValid: function(url) {
-		match = url.match(/elitistarmory\.com\/(us|eu|kr|cn|tw)\/(.+)/i)
+		match = url.match(/armory\.db6\.org\/(us|eu|kr|cn|tw)\/(.+)/i)
 		if( match ) {
 			return "/" + match[1] + "/" + match[2]
 		}
@@ -127,12 +127,12 @@ var eatt = {
 		for(var i = 0; i<links.length; i++) {
 			var args = eatt.getValid(links[i].href)
 			if( args != "" ) {
-				links[i]["rel"] = "http://elitistarmory.com/api/power" + args
+				links[i]["rel"] = "http://armory.db6.org/api/power" + args
 				links[i].onmouseover = function(evt) { eatt.startTooltip(this) }
 				links[i].onmouseout = function(evt) { eatt.hide() }
 				
 				if( typeof(OVERWRITE_ARMORY) != "undefined" && OVERWRITE_ARMORY ) {
-					links[i].href = "http://elitistarmory.com" + args
+					links[i].href = "http://armory.db6.org" + args
 				}
 			}
 		}
@@ -174,7 +174,7 @@ var eatt = {
 		for (var i=0; i<scripts.length; i++) {
 			var script = scripts[i]
 			var src = script.getAttribute("src")
-			if(src!=null && src.indexOf("api/power") > 0 && src.indexOf("elitistarmory.com") > 0) {
+			if(src!=null && src.indexOf("api/power") > 0 && src.indexOf("armory.db6.org") > 0) {
 				head.removeChild(script)
 				return
 			}

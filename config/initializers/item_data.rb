@@ -89,7 +89,7 @@ ITEMS["NAMES"] = {
 ITEMS["SIMILAR_TYPES"] = {
 	"caster" => ["caster-dps", "caster-spirit"],
 	"caster-dps" => ["caster", "caster-spirit", "tank/dps", "dps"],
-	"caster-spirit" => ["caster"],
+	"caster-spirit" => ["caster", "spirit/cloak"],
 	"tank" => ["melee", "tank/dps"],
 	"melee" => ["physical-all", "tank/dps", "physical-dps"],
 	"physical-dps" => ["physical-all", "dps", "tank/dps"],
@@ -233,18 +233,18 @@ ITEMS["TYPE_BLACKLIST"] = ["random"]
 
 # Set what specs can use what item types
 tank = {"random" => true, "all" => true, "tank" => true, "melee" => true, "physical-all" => true, "tank/dps" => true, "tank/range" => true, "tank/pvp" => true, "resist" => true}
-caster_damage = {"random" => true, "all" => true, "caster-spirit" => true, "caster-dps" => true, "caster" => true, "healer/dps" => true, "tank/dps" => true, "dps" => true}
+caster_damage = {"random" => true, "all" => true, "caster-spirit" => true, "caster-dps" => true, "caster" => true, "healer/dps" => true, "tank/dps" => true, "dps" => true, "spirit/cloak" => true}
 melee_damage = {"random" => true, "all" => true, "melee" => true, "melee-dps" => true, "physical-dps" => true, "physical-all" => true, "tank/dps" => true, "healer/dps" => true, "dps" => true}
 range_damage = {"random" => true, "all" => true, "range-dps" => true, "tank/range" => true, "physical-dps" => true, "physical-all" => true, "healer/dps" => true, "tank/dps" => true, "dps" => true}
 healer = {"random" => true, "all" => true, "healer" => true, "caster" => true, "healer/dps" => true, "situational-healer" => true}
 
 ap_melee_damage = melee_damage.merge("attackpower" => true)
-spirit_healer = healer.merge("caster-spirit" => true)
+spirit_healer = healer.merge("caster-spirit" => true, "spirit/cloak" => true)
 
 ITEMS["TALENT_ROLES"] = {
 	# Shamans
 	"elemental-shaman" => caster_damage.merge("pvp/sta" => true),
-	"enhance-shaman" => melee_damage,
+	"enhance-shaman" => ap_melee_damage,
 	"resto-shaman" => healer.merge("pvp/sta" => true, "spirit/cloak" => true),
 	# Mages
 	"arcane-mage" => caster_damage,
@@ -587,10 +587,10 @@ ITEMS["IDENTIFY_RULES"] = [
 	{:id => "pvp/sta",			"gem" => ["STAMINA"], :require_type => "any", :requires => ["SPELL_POWER"]},
 	{:id => "all",				"gem" => ["STAT_ALL"], "enchant" => ["STAT_ALL", "RUN_SPEED"]},
 	{:id => "attackpower",		"gem" => ["ATTACK_POWER"]},
+        {:id => "healer",                       "gem" => ["MANA_REGEN"], :require_type => "any", :requires => ["INTELLECT", "SPELL_POWER", "SPELL_HASTE"]},
 	{:id => "never",			"gem" => ["RESIST"]},
 	{:id => "never",			"gem" => ["MANA_REGEN"], :exclusive => true},
-	{:id => "never",			"gem" => ["MANA_REGEN"], :require_type => "any", :requires => ["AGILITY", "ATTACK_POWER", "STRENGTH", "MANA"]},
-	{:id => "healer",			"gem" => ["MANA_REGEN"], :skip_on => ["INTELLECT", "SPELL_POWER"]},
+	{:id => "never",			"gem" => ["MANA_REGEN"], :require_type => "any", :requires => ["AGILITY", "ATTACK_POWER", "STRENGTH"]},
 	{:id => "tank",				"default" => ["DEFENSE"], "trinket" => ["WHEN_HIT"]},
 	{:id => "tank",				"weapon" => ["ARMOR"], :skip_on => ["INTELLECT", "SPELL_POWER", "ARMOR_PENETRATION"]},
 	{:id => "healer",			"trinket" => ["HELPFUL_SPELL"]},

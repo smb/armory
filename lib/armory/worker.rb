@@ -305,7 +305,7 @@ module Armory
 					if node.nil?
 						say "#{self.name}: No nodes found still, retrying in 1 second"
 						sleep 1
-						retry
+						redo
 					end
 					
 					if node != last_node
@@ -336,7 +336,7 @@ module Armory
 					end
 					
 					job = nil
-					retry
+					redo
 				end
 
 				# No jobs, wait and try agan
@@ -389,7 +389,7 @@ module Armory
 				Armory::Node.clear_locks!(self.name)
 				
 				retries += 1
-				retry if retries <= 5
+                                        retry if retries <= 5
 			ensure
 				Armory::Job.clear_locks!(self.name)
 				Armory::Node.clear_locks!(self.name)

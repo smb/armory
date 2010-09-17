@@ -1,12 +1,12 @@
 var ttcss = document.createElement("link")
 ttcss.type = "text/css"
 ttcss.rel = "stylesheet"
-ttcss.href = "http://elitistarmory.com/stylesheets/powered.css"
+ttcss.href = "http://armory.db6.org/stylesheets/powered.css"
 head = document.getElementsByTagName("head")[0]
 head.appendChild(ttcss)
 var ttjs = document.createElement("script")
 ttjs.type = "text/javascript"
-ttjs.src = "http://elitistarmory.com/javascripts/powered.js"
+ttjs.src = "http://armory.db6.org/javascripts/powered.js"
 head.appendChild(ttjs)
 
 var orig_onload = window.onload

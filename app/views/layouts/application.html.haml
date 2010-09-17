@@ -28,15 +28,15 @@
 				-#	.arrow.down
 				-#	%ul.invisible
 				-#		%li.darkbg= link_to "Items", "/"
-				%li.dropdown
-					.text Misc
-					.arrow.down
-					%ul.invisible
-						%li.darkbg= link_to "F.A.Q", faq_path
-						%li.lightbg= link_to "API", api_path
-						%li.darkbg= link_to "Powered by", powered_path
-						%li.lightbg= link_to "Help mirror", mirror_path
-						%li.darkbg= link_to "Donate", donate_path
+				-#%li.dropdown
+				-#	.text Misc
+				-#	.arrow.down
+				-#	%ul.invisible
+				-#		%li.darkbg= link_to "F.A.Q", faq_path
+				-#		%li.lightbg= link_to "API", api_path
+				-#		%li.darkbg= link_to "Powered by", powered_path
+				-#		%li.lightbg= link_to "Help mirror", mirror_path
+				-#		%li.darkbg= link_to "Donate", donate_path
 			- if current_user.nil?
 				%span.account= link_to "Log in", "#{new_login_path}"
 				%span.account= "&bull;"
@@ -47,12 +47,12 @@
 				%span.account= link_to "Admin", admin_path if current_user_is_admin?
 				%span.account= "&bull;" if current_user_is_admin?
 				%span.account= link_to "Log out", logout_path
-	- if RAILS_ENV == "production" and !is_mobile_ua?
+	- if !is_mobile_ua?
 		.smallspacer
 		.w960.text-center
 			:javascript
-				google_ad_client = "pub-5904524490721044";
-				google_ad_slot = "5069425405";
+				google_ad_client = "pub-1840639511496480";
+				google_ad_slot = "8917621399";
 				google_ad_width = 468;
 				google_ad_height = 60;
 			= javascript_include_tag("http://pagead2.googlesyndication.com/pagead/show_ads.js")
@@ -124,12 +124,12 @@
 		.w960.shadow.simplemsg.darkbg
 			%span{:class => "red"} Warning:
 			NoScript is enabled. Elitist Armory will not function properly unless you turn it off.
-	- if RAILS_ENV == "production" && !is_mobile_ua?
+	- if !is_mobile_ua?
 		.smallspacer
 		.w960.text-center
 			:javascript
-				google_ad_client = "pub-5904524490721044";
-				google_ad_slot = "2844319591";
+				google_ad_client = "pub-1840639511496480";
+				google_ad_slot = "8300610112";
 				google_ad_width = 728;
 				google_ad_height = 90;
 			= javascript_include_tag("http://pagead2.googlesyndication.com/pagead/show_ads.js")
@@ -138,31 +138,29 @@
 	- else
 		.spacer
 	.w960.copyright
-		&copy; 2010 Elitist Armory
+		&copy; 2010 NAMENOTFINAL / Brut des Verderbens
 		&bull;
-		= link_to "Contact Us", "mailto:contact@elitistarmory.com"
+		= link_to "Brut des Verderbens", "http://bdv.db6.org"
 		&bull;
-		= link_to "SC2 Ranks", "http://www.sc2ranks.com/?utm_source=elitistarmory"
+		= link_to "Contact Us", "mailto:brutdesverderbens@googlemail.com"
 		&bull;
-		= link_to "WowQU", "http://www.wowqu.com/?utm_source=elitistarmory"
-		&bull;
-		= link_to "Twitter", "https://twitter.com/elitistarmory"
-		&bull; Elitist Armory has no affiliation and is in no way endorsed by Blizzard Entertainment.
-	- if RAILS_ENV == "production"
+		= link_to "WowQU", "http://www.wowqu.com"
+		&bull; NAMENOTFINAL Armory has no affiliation and is in no way endorsed by Blizzard Entertainment.
+	- if RAILS_ENV == "production" or RAILS_ENV == "development"
 		- if !is_mobile_ua?
-			= javascript_include_tag("http://s3.amazonaws.com/getsatisfaction.com/javascripts/feedback-v2.js")
-			:javascript
-				var feedback_widget_options = {};
+			-#= javascript_include_tag("http://s3.amazonaws.com/getsatisfaction.com/javascripts/feedback-v2.js")
+			-#:javascript
+			-#	var feedback_widget_options = {};
 
-				feedback_widget_options.display = "overlay";  
-				feedback_widget_options.company = "elitistarmory";
-				feedback_widget_options.placement = "left";
-				feedback_widget_options.color = "#262626";
-				feedback_widget_options.style = "idea";
-				var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
+			-#	feedback_widget_options.display = "overlay";  
+			-#	feedback_widget_options.company = "elitistarmory";
+			-#	feedback_widget_options.placement = "left";
+			-#	feedback_widget_options.color = "#262626";
+			-#	feedback_widget_options.style = "idea";
+			-#	var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
 		:javascript
 			var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', 'UA-13060800-1']);
+			_gaq.push(['_setAccount', 'UA-4091686-5']);
 			_gaq.push(['_trackPageview']);
 
 			(function() {

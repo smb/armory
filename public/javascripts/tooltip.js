@@ -1,6 +1,6 @@
 var URL_MATCHES = {
 	"^http://www\\.wowhead\\.com/(item|spell|quest|object|npc|achievement|statistic)=(.+)": function(match) { return "http://www.wowhead.com/" + match[1] + "=" + match[2] + "&power" },
-	"^http://elitistarmory\\.com/item/([0-9]+)": function(match) { return "http://www.wowhead.com/item=" + match[1] + "&power" }
+	"^http://armory\\.db6\\.org/item/([0-9]+)": function(match) { return "http://www.wowhead.com/item=" + match[1] + "&power" }
 }
 
 var cursor = {x: 0, y: 0}

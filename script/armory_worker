@@ -1,4 +1,4 @@
-#!/usr/bin/env /web/armory/script/ruby-worker-env
+#!/usr/bin/env /webseiten/armory.db6.org/Elitist-Armory/script/ruby-worker-env
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'config', 'environment'))
 require "lib/armory/command.rb"
 Armory::Command.new(ARGV).daemonize
