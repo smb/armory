@@ -137,11 +137,77 @@ TALENTS[:types] = {
 }
 
 TALENTS[:bonus] =  {
+	1 => {
+		1 => {
+			:type => "MELEEHIT",
+			:pos => 44,
+			:percent => 1, # Precision, 1% Hit / Point
+		},
+	},	
+	3 => {
+		1 => {
+			:type => "MELEEHIT",
+			:pos => 28,
+			:percent => 1, # Focused Aim, 1% Hit / Point
+		},
+	},				
+	4 => {
+		1 => {
+			:type => "MELEEHITDW",
+			:pos => 33,
+			:percent => 1, # Precision, 1% Hit / Point
+		},
+	},	
 	5 => {
 		1 => {
-			:type => "HIT",
+			:type => "SPELLHIT",
 			:pos => 61,
 			:percent => 1, # Shadow Focus, 1% Hit / Point
+		},
+	},
+	6 => {
+		1 => {
+			:type => "MELEEHITDW",
+			:pos => 34,
+			:percent => 1, # Nerves of Cold Steel, 1% DWHit / Point
+		},
+		2 => {
+			:type => "SPELLHIT",
+			:pos => 59,
+			:percent => 1, # Virulence, 1% Spellhit / Point
+		},
+	},
+	7 => {
+		1 => {
+			:type => "SPELLHIT",
+			:pos => 14,
+			:percent => 1, # Elemental Precision, 1% SpellHit / Point
+		},
+		2 => {
+			:type => "MELEEHITDW",
+			:pos => 44,
+			:percent => 2, # Dual Wield Specialization, 2% Spellhit / Point
+		},
+	},
+	8 => {
+		1 => {
+			:type => "SPELLHIT",
+			:pos => 64,
+			:percent => 1, # Precision, 1% SpellHit / Point
+		},
+	},
+	9 => {
+		1 => {
+			:type => "SPELLHIT",
+			:pos => 2,
+			:percent => 1, # Suppression, 1% SpellHit / Point
+		},
+	},
+	11 => {
+		1 => {
+			:type => "SPELLHIT",
+			:pos => 17,
+			:percent => 2, # Balance of Power, 2% SpellHit / Point
 		},
 	},
 }
