@@ -146,9 +146,25 @@ class Character < ActiveRecord::Base
 			stat_data.push(:text => "Mana per 5", :amount => "%d", :stat => get_stat("spell", "mp5"), :no_tooltip => true)
 			stat_data.push(:text => "Haste", :amount => "%.2f%", :is_rating => true, :stat => get_stat("spell", "haste"))
 			stat_data.push(:text => "Crit", :amount => "%.2f%", :is_rating => true, :stat => get_highest_stat("spellcrit", "percent"))
-			
+                        
+                        logger.info STATS[:caps]
+                        logger.info STATS[:ratings]
+                        			
 			if talent_base[:primary] == "dps"
-				stat_data.push(:text => "Hit", :amount => "%.2f%", :is_rating => true, :stat => get_stat("spell", "hit"))
+				#stat_data.push(:text => "Hit", :amount => "%.2f%", :is_rating => true, :stat => get_stat("spell", "hit"))
+				# Caster Hit-Cap
+				# smb / 17.09.2010
+				casterhit = get_stat("spell", "hit")
+				castermaxhit = 446 #17% = 446 rating
+				bonusPercent = self.active_talent.get_bonus(self.class_id, "HIT")
+				casterhit[:percent] = casterhit[:percent] + bonusPercent
+				# shadowpriest / druid, +3%
+				casterhit[:percent] = casterhit[:percent] + 3
+				if casterhit[:percent] > 17
+					stat_data.push(:text => "Hit", :amount => "%.2f%", :is_rating => true, :stat => get_stat("spell", "hit"), :color => "red", :tooltip => "Caster hit cap is <span class='green'>17%</span>, player is <span class='red'>%d%</span> hit (<span class='red'>%.1f</span> rating) over the cap (Raidbuffed, +3%%)" % [casterhit[:percent] - 17, (casterhit[:percent]).to_f * 26.23 - 446] )
+				else
+					stat_data.push(:text => "Hit", :amount => "%.2f%", :is_rating => true, :stat => casterhit)
+				end
 			end
 		end
 

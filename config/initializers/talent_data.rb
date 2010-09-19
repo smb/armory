@@ -88,7 +88,7 @@ TALENTS[:types] = {
 	5 => [
 		{:type => "disc-priest", :name => "Discipline"},
 		{:type => "holy-priest", :name => "Holy"},
-		{:type => "shadow-priest", :name => "Shadow"},
+		{:type => "shadow-priest", :name => "Shadow"}, 
 	],
 	6 => [
 		{:type => "blood-dk", :name => "Blood"},
@@ -134,6 +134,16 @@ TALENTS[:types] = {
 			}
 		},
 	],
+}
+
+TALENTS[:bonus] =  {
+	5 => {
+		1 => {
+			:type => "HIT",
+			:pos => 61,
+			:percent => 1, # Shadow Focus, 1% Hit / Point
+		},
+	},
 }
 
 TALENTS[:tree_names] = {}
