@@ -21,17 +21,13 @@ class Talent < ActiveRecord::Base
 	def get_bonus(class_id, type)
 		bonusValue = 0;
 		bonus_data = TALENTS[:bonus][class_id]
-		logger.warn "Bonus detection #{class_id} #{type}"
 
 		if bonus_data
-			logger.warn "stage 2"
 			bonus_data.each do |i, bonus|
-				logger.warn "stage 3"
 				if bonus[:type] = type
-					logger.warn "stage 4"
 					numPoints = self.compressed_data.slice(bonus[:pos] - 1, 1).to_i
 					bonusValue = numPoints * bonus[:percent]
-					logger.warn "np: #{numPoints} bonusPercent: #{bonus[:percent]}"
+                                        logger.warn "#{type} (pos #{bonus[:pos]} pt) #{numPoints} * bonusPercent: #{bonus[:percent]} = #{bonusValue} (#{self.compressed_data})"
 				end
 			end
 		end
