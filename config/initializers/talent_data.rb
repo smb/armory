@@ -142,6 +142,8 @@ TALENTS[:bonus] =  {
 			:type => "MELEEHIT",
 			:pos => 44,
 			:percent => 1, # Precision, 1% Hit / Point
+						:name => "Precision",
+                        :id => [29590,29591,29592],
 		},
 	},	
 	3 => {
@@ -149,6 +151,8 @@ TALENTS[:bonus] =  {
 			:type => "MELEEHIT",
 			:pos => 28,
 			:percent => 1, # Focused Aim, 1% Hit / Point
+			            :name => "Focused Aim",
+                        :id => [53620,53621,53622],
 		},
 	},				
 	4 => {
@@ -156,6 +160,8 @@ TALENTS[:bonus] =  {
 			:type => "MELEEHITDW",
 			:pos => 33,
 			:percent => 1, # Precision, 1% Hit / Point
+						:name => "Precision",
+                        :id => [13705,13832,13843,13844,13845],
 		},
 	},	
 	5 => {
@@ -163,6 +169,8 @@ TALENTS[:bonus] =  {
 			:type => "SPELLHIT",
 			:pos => 61,
 			:percent => 1, # Shadow Focus, 1% Hit / Point
+                        :name => "Shadow Focus",
+                        :id => [15260,15327,15328],
 		},
 	},
 	6 => {
@@ -170,11 +178,15 @@ TALENTS[:bonus] =  {
 			:type => "MELEEHITDW",
 			:pos => 34,
 			:percent => 1, # Nerves of Cold Steel, 1% DWHit / Point
+						:name => "Nerves of Cold Steel",
+                        :id => [49226,50137,50138],
 		},
 		2 => {
 			:type => "SPELLHIT",
 			:pos => 59,
 			:percent => 1, # Virulence, 1% Spellhit / Point
+						:name => "Nerves of Cold Steel",
+                        :id => [48962,49567,49568],
 		},
 	},
 	7 => {
@@ -182,11 +194,15 @@ TALENTS[:bonus] =  {
 			:type => "SPELLHIT",
 			:pos => 14,
 			:percent => 1, # Elemental Precision, 1% SpellHit / Point
+						:name => "Elemental Precision",
+                        :id => [30672,30673,30674],
 		},
 		2 => {
 			:type => "MELEEHITDW",
 			:pos => 44,
 			:percent => 2, # Dual Wield Specialization, 2% Spellhit / Point
+						:name => "Dual Wield Specialization",
+                        :id => [30816,30818,30819],
 		},
 	},
 	8 => {
@@ -194,6 +210,8 @@ TALENTS[:bonus] =  {
 			:type => "SPELLHIT",
 			:pos => 64,
 			:percent => 1, # Precision, 1% SpellHit / Point
+						:name => "Precision",
+                        :id => [29438,29439,29440],
 		},
 	},
 	9 => {
@@ -201,6 +219,9 @@ TALENTS[:bonus] =  {
 			:type => "SPELLHIT",
 			:pos => 2,
 			:percent => 1, # Suppression, 1% SpellHit / Point
+						:name => "Suppression",
+                        :id => [18174,18175,18176],
+			
 		},
 	},
 	11 => {
@@ -208,6 +229,8 @@ TALENTS[:bonus] =  {
 			:type => "SPELLHIT",
 			:pos => 17,
 			:percent => 2, # Balance of Power, 2% SpellHit / Point
+						:name => "Balance of Power",
+                        :id => [33592,33596],
 		},
 	},
 }
