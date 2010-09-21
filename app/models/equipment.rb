@@ -18,6 +18,21 @@ class Equipment < ActiveRecord::Base
 		return ITEMS["EQUIP_ID_NAMES"][id]
 	end
 	
+	def self.weapon_type(equip_list)
+		if equip_list[16].nil? and !equip_list[15].nil?
+			# 2h
+			return 1 if !equip_list[15].item.nil? && equip_list[15].item.slot_id == 17
+		end
+		if !equip_list[15].nil?
+			#shield
+			return 1 if equip_list[15].item.slot_id == 14
+			return 2 if !equip_list[16].nil?
+		end
+
+		# DW
+		return 2
+	end
+
 	def self.empty_slot?(equip_list, equipment_id)
 		# 16 is the off hand weapon slot
 		if equipment_id == 16 and equip_list[16].nil? and !equip_list[15].nil?

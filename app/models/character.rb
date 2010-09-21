@@ -126,7 +126,26 @@ class Character < ActiveRecord::Base
 			stat_data.push(:text => "Armor pen", :amount => "%.2f%", :is_rating => true, :stat => get_stat("melee", "penetration"))
 			stat_data.push(:text => "Crit", :amount => "%.2f%", :is_rating => true, :stat => get_stat("melee", "crit"))
 			stat_data.push(:text => "Haste", :amount => "%.2f%", :is_rating => true, :stat => get_stat("melee", "haste"))
-			stat_data.push(:text => "Hit", :amount => "%.2f%", :is_rating => true, :stat => get_stat("melee", "hit"))
+
+			# hit stuff...
+			meleehit = get_stat("melee", "hit")
+                        spellhit = get_stat("spell", "hit")
+			meleetype, secondary_type = get_melee_type(talent_base)
+                        
+			bonusPercent = shown_talent().get_bonus(self.class_id, meleetype)
+			meleehit = stat_add_p(meleehit, meleetype, bonusPercent)                        
+			if meleehit[:percent] > get_cap_p(meleetype)
+				stat_data.push(:text => "Hit", :amount => "%.2f%", :is_rating => true, :stat => meleehit, :color => "red", :tooltip => "Hit cap is <span class='green'>%.1f%</span>, player is <span class='red'>%.1f%</span> hit (<span class='red'>%.1f</span> rating) over the cap (includes bonus hit from raidbuffs/-debuffs)" % [ get_cap_p(meleetype).to_f, (meleehit[:percent] - get_cap_p(meleetype)).to_f, (meleehit[:rating] - get_cap_r(meleetype)).to_f ] )
+			else
+				stat_data.push(:text => "Hit", :amount => "%.2f%", :is_rating => true, :stat => meleehit,
+					:tooltip => "%d rating. Includes Bonus hit from talents: <span class='green'>+%.1f%</span> (<span class='green'>+%.1f</span> rating) and raidbuffs/-debuffs" % 
+					[ meleehit[:rating], bonusPercent, p2r(bonusPercent, statmap(meleetype)).to_i ])
+
+			end
+
+			if secondary_type == "SPELLHIT"
+				# TODO: Spellhit (shammy, rogue)
+			end
 
 			expertise = get_stat("melee", "expertise")
 			if expertise[:rating] > 26
@@ -147,23 +166,26 @@ class Character < ActiveRecord::Base
 			stat_data.push(:text => "Haste", :amount => "%.2f%", :is_rating => true, :stat => get_stat("spell", "haste"))
 			stat_data.push(:text => "Crit", :amount => "%.2f%", :is_rating => true, :stat => get_highest_stat("spellcrit", "percent"))
                         
-                        logger.info STATS[:caps]
-                        logger.info STATS[:ratings]
-                        			
 			if talent_base[:primary] == "dps"
 				#stat_data.push(:text => "Hit", :amount => "%.2f%", :is_rating => true, :stat => get_stat("spell", "hit"))
 				# Caster Hit-Cap
 				# smb / 17.09.2010
 				casterhit = get_stat("spell", "hit")
-				castermaxhit = 446 #17% = 446 rating
-				bonusPercent = self.active_talent.get_bonus(self.class_id, "HIT")
-				casterhit[:percent] = casterhit[:percent] + bonusPercent
+				bonusPercent = shown_talent().get_bonus(self.class_id, "SPELLHIT")
+				#casterhit[:percent] = casterhit[:percent] + bonusPercent
 				# shadowpriest / druid, +3%
-				casterhit[:percent] = casterhit[:percent] + 3
-				if casterhit[:percent] > 17
-					stat_data.push(:text => "Hit", :amount => "%.2f%", :is_rating => true, :stat => get_stat("spell", "hit"), :color => "red", :tooltip => "Caster hit cap is <span class='green'>17%</span>, player is <span class='red'>%d%</span> hit (<span class='red'>%.1f</span> rating) over the cap (Raidbuffed, +3%%)" % [casterhit[:percent] - 17, (casterhit[:percent]).to_f * 26.23 - 446] )
+				#casterhit[:percent] = casterhit[:percent] + 3
+
+
+				casterhit = stat_add_p(casterhit, "SPELLHIT", bonusPercent)
+				casterhit = stat_add_p(casterhit, "SPELLHIT", 3)
+
+				if casterhit[:percent] > get_cap_p("SPELLHIT")
+					stat_data.push(:text => "Hit", :amount => "%.2f%", :is_rating => true, :stat => casterhit, :color => "red", :tooltip => "Caster hit cap is <span class='green'>%.1f%</span>, player is <span class='red'>%.1f%</span> hit (<span class='red'>%.1f</span> rating) over the cap (includes bonus hit from raidbuffs/-debuffs)" % [ 	get_cap_p("SPELLHIT").to_f, (casterhit[:percent] - get_cap_p("SPELLHIT")).to_f, (casterhit[:rating] - get_cap_r("SPELLHIT")).to_f ] )
 				else
-					stat_data.push(:text => "Hit", :amount => "%.2f%", :is_rating => true, :stat => casterhit)
+					stat_data.push(:text => "Hit", :amount => "%.2f%", :is_rating => true, :stat => casterhit,
+					:tooltip => "%d rating. Includes Bonus hit from talents: <span class='green'>+%.1f%</span> (<span class='green'>+%.1f</span> rating) and raidbuffs/-debuffs" % 
+					[ casterhit[:rating], bonusPercent, p2r(bonusPercent, "SPELLHIT").to_i ])
 				end
 			end
 		end
@@ -408,6 +430,25 @@ class Character < ActiveRecord::Base
 				
 		return warnings
 	end
+
+	def get_melee_type(talent_base)
+		equip_hash = {}
+		meele_type = nil
+		secondary_type = nil
+
+		self.equipment.all(:conditions => {:group_id => self.current_group}, :include => [:item]).each do |equipment|
+			equip_hash[equipment.equipment_id] = equipment
+		end
+
+		# hunter
+		if talent_base[:type] == "range"
+			melee_type = "MELEEHIT"
+		else
+			melee_type = Equipment.weapon_type(equip_hash) == 1 ? "MELEEHIT" : "MELEEHITDW"
+		end
+
+		return melee_type, secondary_type
+	end
 	
 	def equip_summary
 		equip_hash = {}
@@ -543,6 +584,48 @@ class Character < ActiveRecord::Base
 		end
 		
 		return !highest_stat.nil? && highest_stat || 0
+	end
+
+	def p2r(val, type)
+		rating = STATS[:ratings][type][:rating] ?  STATS[:ratings][type][:rating] : 0
+		cap = rating * val
+		return cap.ceil
+	end
+
+	def r2p(val, type)
+		rating = STATS[:ratings][type][:rating] ?  STATS[:ratings][type][:rating] : 0
+		if rating != 0
+			return (val / rating).ceil
+		else
+			return 0
+		end
+	end
+
+	def get_cap_p(type)
+		return STATS[:caps][type][:percent]
+	end
+
+	def get_cap_r(type)
+		return STATS[:caps][type][:rating]
+	end
+
+	def get_cap_v(type)
+		return STATS[:caps][type][:value]
+	end
+
+	def statmap(type)
+		return STATS[:caps][type][:map] ? STATS[:caps][type][:map] : type
+	end
+
+        def shown_talent()
+                return self.talents.find(:first, :conditions => {:group => self.current_group})
+        end
+
+	def stat_add_p(mystat, type, val)
+		mystat[:percent] = mystat[:percent] + val
+		mystat[:rating] = mystat[:rating] + p2r(val, statmap(type))
+
+                return mystat
 	end
 end
  

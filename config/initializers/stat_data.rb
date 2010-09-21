@@ -21,7 +21,7 @@ STATS[:ratings] = {
 
 STATS[:caps] = {
 	"SPELLHIT" => {
-		:rating => 466,
+		:rating => 446,
 	},
 	"MELEEHIT" => {
 		:rating => 263,
