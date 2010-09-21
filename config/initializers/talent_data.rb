@@ -163,6 +163,8 @@ TALENTS[:bonus] =  {
 			:type => "SPELLHIT",
 			:pos => 61,
 			:percent => 1, # Shadow Focus, 1% Hit / Point
+                        :name "Shadow Focus",
+                        :id => [15260,15327,15328],
 		},
 	},
 	6 => {
