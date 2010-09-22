@@ -19,20 +19,32 @@ class Talent < ActiveRecord::Base
 	end
 	
 	def get_bonus(class_id, type)
+                ret = []
 		bonusValue = 0;
 		bonus_data = TALENTS[:bonus][class_id]
 
 		if bonus_data
 			bonus_data.each do |i, bonus|
-				if bonus[:type] = type
+				if bonus[:type] == type
 					numPoints = self.compressed_data.slice(bonus[:pos] - 1, 1).to_i
 					bonusValue = numPoints * bonus[:percent]
-                                        logger.warn "#{type} (pos #{bonus[:pos]} pt) #{numPoints} * bonusPercent: #{bonus[:percent]} = #{bonusValue} (#{self.compressed_data})"
+                                        #logger.warn "#{type} (pos #{bonus[:pos]} pt) #{numPoints} * bonusPercent: #{bonus[:percent]} = #{bonusValue} (#{self.compressed_data})"
+					if !bonus[:name].nil?
+						bonus_name = bonus[:name]
+                                        else
+                                                bonus_name = "unknown"
+					end                                        
+					if !bonus[:id].nil? and bonus[:id][numPoints]
+						bonus_spellid = bonus[:id][numPoints]
+					end
+                                        if(bonusValue > 0)
+                                                ret.push({:percent => bonusValue,:percentSingle => bonus[:percent], :numPoints => numPoints, :name => bonus_name, :id => bonus_spellid})
+                                        end
 				end
 			end
 		end
 
-                return bonusValue
+                return ret
         end
 
 

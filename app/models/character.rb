@@ -64,7 +64,7 @@ class Character < ActiveRecord::Base
 		categories.push("melee", "defensive") if talent_base[:primary] == "tank"
 		categories.push("ranged") if talent_base[:type] == "range"
 		categories.push("spell", "spellcrit") if talent_base[:type] == "caster"
-		categories.push("melee") if talent_base[:type] == "physical" && talent_base[:primary] != "tank"
+		categories.push("melee", "spell") if talent_base[:type] == "physical" && talent_base[:primary] != "tank"
 		
 		@cache_stats = {}
 		self.stats.all(:conditions => {:group_id => self.current_group, :category => categories}).each do |stat|
@@ -130,21 +130,27 @@ class Character < ActiveRecord::Base
 			# hit stuff...
 			meleehit = get_stat("melee", "hit")
                         spellhit = get_stat("spell", "hit")
+                        
 			meleetype, secondary_type = get_melee_type(talent_base)
                         
-			bonusPercent = shown_talent().get_bonus(self.class_id, meleetype)
-			meleehit = stat_add_p(meleehit, meleetype, bonusPercent)                        
-			if meleehit[:percent] > get_cap_p(meleetype)
-				stat_data.push(:text => "Hit", :amount => "%.2f%", :is_rating => true, :stat => meleehit, :color => "red", :tooltip => "Hit cap is <span class='green'>%.1f%</span>, player is <span class='red'>%.1f%</span> hit (<span class='red'>%.1f</span> rating) over the cap (includes bonus hit from raidbuffs/-debuffs)" % [ get_cap_p(meleetype).to_f, (meleehit[:percent] - get_cap_p(meleetype)).to_f, (meleehit[:rating] - get_cap_r(meleetype)).to_f ] )
-			else
-				stat_data.push(:text => "Hit", :amount => "%.2f%", :is_rating => true, :stat => meleehit,
-					:tooltip => "%d rating. Includes Bonus hit from talents: <span class='green'>+%.1f%</span> (<span class='green'>+%.1f</span> rating) and raidbuffs/-debuffs" % 
-					[ meleehit[:rating], bonusPercent, p2r(bonusPercent, statmap(meleetype)).to_i ])
+			#bonusPercent = shown_talent().get_bonus(self.class_id, meleetype)
 
-			end
+                        bonusPercent = get_bonus(meleetype);
 
-			if secondary_type == "SPELLHIT"
-				# TODO: Spellhit (shammy, rogue)
+			meleehit = stat_add_p(meleehit, meleetype, bonusPercent[:total][:percent])
+
+                        tooltip, color = tooltip_hit(meleehit, meleetype, bonusPercent, true)
+
+			stat_data.push(:text => "Hit", :amount => "%.2f%", :is_rating => true, :stat => meleehit, :color => color, :tooltip => tooltip)
+
+			if !secondary_type.nil?			
+				#bonusSec = shown_talent().get_bonus(self.class_id, secondary_type)
+                                bonusSec = get_bonus(secondary_type)
+				spellhit = stat_add_p(spellhit, secondary_type, bonusSec[:total][:percent])
+				
+				# tseting new tooltip function
+				tooltip, color = tooltip_hit(spellhit, secondary_type, bonusSec, false)
+				stat_data.push(:text => "Spellhit", :amount => "%.2f%", :stat => spellhit, :color => color, :tooltip => tooltip)
 			end
 
 			expertise = get_stat("melee", "expertise")
@@ -171,21 +177,27 @@ class Character < ActiveRecord::Base
 				# Caster Hit-Cap
 				# smb / 17.09.2010
 				casterhit = get_stat("spell", "hit")
-				bonusPercent = shown_talent().get_bonus(self.class_id, "SPELLHIT")
+				#bonusPercent = shown_talent().get_bonus(self.class_id, "SPELLHIT")
+                                bonusPercent = get_bonus("SPELLHIT")
+                                #
 				#casterhit[:percent] = casterhit[:percent] + bonusPercent
 				# shadowpriest / druid, +3%
 				#casterhit[:percent] = casterhit[:percent] + 3
 
 
-				casterhit = stat_add_p(casterhit, "SPELLHIT", bonusPercent)
-				casterhit = stat_add_p(casterhit, "SPELLHIT", 3)
+				casterhit = stat_add_p(casterhit, "SPELLHIT", bonusPercent[:total][:percent])
+				#casterhit = stat_add_p(casterhit, "SPELLHIT", 3)
+
+                                tooltip,color = tooltip_hit(casterhit, "SPELLHIT", bonusPercent, true)
+                                stat_data.push(:text => "Hit", :amount => "%.2f%", :is_rating => true, :stat => casterhit, :color => color, :tooltip => tooltip)
 
 				if casterhit[:percent] > get_cap_p("SPELLHIT")
-					stat_data.push(:text => "Hit", :amount => "%.2f%", :is_rating => true, :stat => casterhit, :color => "red", :tooltip => "Caster hit cap is <span class='green'>%.1f%</span>, player is <span class='red'>%.1f%</span> hit (<span class='red'>%.1f</span> rating) over the cap (includes bonus hit from raidbuffs/-debuffs)" % [ 	get_cap_p("SPELLHIT").to_f, (casterhit[:percent] - get_cap_p("SPELLHIT")).to_f, (casterhit[:rating] - get_cap_r("SPELLHIT")).to_f ] )
+					#stat_data.push(:text => "Hit", :amount => "%.2f%", :is_rating => true, :stat => casterhit, :color => "red", :tooltip => "Caster hit cap is <span class='green'>%.1f%</span>, player is <span class='red'>%.1f%</span> hit (<span class='red'>%.1f</span> rating) over the cap (includes bonus hit from raidbuffs/-debuffs)" % [ 	get_cap_p("SPELLHIT").to_f, (casterhit[:percent] - get_cap_p("SPELLHIT")).to_f, (casterhit[:rating] - get_cap_r("SPELLHIT")).to_f ] )
+                                        #stat_data.push(:text => "Hit", :amount => "%.2f%", :is_rating => true, :stat => casterhit, :color => color, :tooltip => tooltip)
 				else
-					stat_data.push(:text => "Hit", :amount => "%.2f%", :is_rating => true, :stat => casterhit,
-					:tooltip => "%d rating. Includes Bonus hit from talents: <span class='green'>+%.1f%</span> (<span class='green'>+%.1f</span> rating) and raidbuffs/-debuffs" % 
-					[ casterhit[:rating], bonusPercent, p2r(bonusPercent, "SPELLHIT").to_i ])
+					#stat_data.push(:text => "Hit", :amount => "%.2f%", :is_rating => true, :stat => casterhit,
+					#:tooltip => "%d rating. Includes Bonus hit from talents: <span class='green'>+%.1f%</span> (<span class='green'>+%.1f</span> rating) and raidbuffs/-debuffs" % 
+					#[ casterhit[:rating], bonusPercent, p2r(bonusPercent, "SPELLHIT").to_i ])
 				end
 			end
 		end
@@ -447,6 +459,14 @@ class Character < ActiveRecord::Base
 			melee_type = Equipment.weapon_type(equip_hash) == 1 ? "MELEEHIT" : "MELEEHITDW"
 		end
 
+                if( self.current_role == "enhance-shaman" or
+                    self.current_role == "assass-rogue" or 
+                    self.current_role == "combat-rogue" or
+                    self.current_role == "subtlety-rogue")
+                        secondary_type = "SPELLHIT"
+                end
+                
+
 		return melee_type, secondary_type
 	end
 	
@@ -626,6 +646,85 @@ class Character < ActiveRecord::Base
 		mystat[:rating] = mystat[:rating] + p2r(val, statmap(type))
 
                 return mystat
+	end
+
+        def bonus_text(data)
+                text =  "%s: <span class='green'>+%.1f%% (%.1f rating)</span>" % [ data[:name], data[:percent], data[:rating] ]
+                return text
+        end
+
+	def get_bonus(type)
+		bonus = {}
+                bonus[:total] = {}
+		bonus[:talent_data] = Array.new(0)
+                bonus[:buff_data] = Array.new(0)
+                bonus[:talent_total] = {}
+                bonus[:buff_total] = {}
+
+		total = 0
+
+		# talent bonus
+		bonusRet = shown_talent().get_bonus(self.class_id, type)
+		bonusRet.each do |it|
+			bhash = it
+			bhash[:rating] = p2r(bhash[:percent], statmap(type))
+
+			total = total + bhash[:percent]
+
+			bonus[:talent_data].push(bhash)
+		end
+
+		# buff bonus
+                if statmap(type) == "SPELLHIT"
+        		bonus[:buff_data].push({:percent => 3, :rating => 78, :name => "TestRaidBuff" })
+                end
+
+		bonus[:talent_total][:percent] = total
+		bonus[:talent_total][:rating] = p2r(total, statmap(type))
+
+		bonus[:buff_total][:percent] = 3
+		bonus[:buff_total][:rating] = 79
+
+                bonus[:total][:percent] = bonus[:talent_total][:percent] + bonus[:buff_total][:percent]
+                bonus[:total][:rating] = bonus[:talent_total][:rating] +  bonus[:buff_total][:rating]
+
+		return bonus
+	end
+
+	def tooltip_hit(hit, type, bonus, primary)
+		tooltip = nil
+		color = "green"
+
+		if hit[:percent] > get_cap_p(type)
+			tooltip = "Hit cap is <span class='green'>%.1f%</span>, player is <span class='red'>%.1f%</span> hit (<span class='red'>%.1f</span> rating) over the cap<br />" % [ get_cap_p(type).to_f, (hit[:percent] - get_cap_p(type)).to_f, (hit[:rating] - get_cap_r(type)).to_f ]
+
+			if(primary)
+                                color = "red"
+                        else
+                                color = "yellow"
+                        end
+		else
+                        tooltip = "%d rating<br />" % [ hit[:rating] ]
+
+			color = "green"
+		end
+
+                if bonus[:talent_data].size > 0
+                        tooltip << "<br />talent modifiers:<br />"
+                        bonus[:talent_data].each do |it|
+                                tooltip << bonus_text(it) << "<br />"
+                        end
+                end
+
+                if bonus[:buff_data].size > 0
+                        tooltip << "<br />buff modifiers:<br />"
+                        bonus[:buff_data].each do |it|
+                                tooltip << bonus_text(it) << "<br />"                                
+                        end
+                end
+
+
+		return tooltip, color
 	end
 end
  
